@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "erIq7TM0eR58eg5jEpbI8o2FYaRuoFeXzHlYPmEi5V8=",
+  "Source": "TodoWebApp_Server_v2",
+  "BasePath": "_content/TodoWebApp_Server_v2",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

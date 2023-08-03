@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TodoWebApp_Server_v2</name>
+    </assembly>
+    <members>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ColorController.GetAllColor">
+            <summary>
+            Get all Color
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ColorController.GetColorById(System.Int64)">
+            <summary>
+            Get color by id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ColorController.CreateColor(TodoWebApp_Server_v2.Dtos.ColorDto.ColorCreateResquestDto)">
+            <summary>
+            Create a color
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ColorController.UpdateColorById(System.Int64,TodoWebApp_Server_v2.Dtos.ColorDto.ColorUpdateRequestDto)">
+            <summary>
+            Update a color by id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ColorController.DeleteColorById(System.Int64)">
+            <summary>
+            Delete a color
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.GetAllProjectAndSectionByUserId(System.Guid)">
+            <summary>
+            Get all projects by User_id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.GetAllProjectByUserId(System.Guid)">
+            <summary>
+            Get all projects by User_id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.DeleteProjectById(System.String)">
+            <summary>
+            Get a Project By Name
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.CreateProject(TodoWebApp_Server_v2.Dtos.ProjectDto.ProjectCreateRequestDto)">
+            <summary>
+            Create a Project
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.UpdateProjectById(System.Int64,TodoWebApp_Server_v2.Dtos.ProjectDto.ProjectUpdateRequestDto)">
+            <summary>
+            Update a Project By Id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.ForceDeleteProjectById(System.Int64)">
+            <summary>
+            Force Delete a Project By Id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.SoftDeleteProjectById(System.Int64)">
+            <summary>
+            Soft Delete a Project By Id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.ProjectController.UndoDeleteProjectById(System.Int64)">
+            <summary>
+            Undo Delete a Project By Id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.SectionController.CreateSection(TodoWebApp_Server_v2.Dtos.SectionDto.SectionCreateRequestDto)">
+            <summary>
+            Create section
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.SectionController.GetAllSectionByProjectId(System.Int64)">
+            <summary>
+            Get all Sections by project id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.CreateTaskTodo(TodoWebApp_Server_v2.Dtos.TaskTodoDto.TaskTodoCreateRequestDto)">
+            <summary>
+            Create a Task Todo by Section-Id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.GetAllTaskTodoInSectionByProjectId(System.Int64)">
+            <summary>
+            Get all Task Todo in All Sections By Project-id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.HanldeCompletedTaskTodo(System.Int64)">
+            <summary>
+            Update Task Completed
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.HanldeNotCompletedTaskTodo(System.Int64)">
+            <summary>
+            Update Task not Complete
+            </summary>
+        </member>
+        <member name="T:TodoWebApp_Server_v2.Migrations.InitDB">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
