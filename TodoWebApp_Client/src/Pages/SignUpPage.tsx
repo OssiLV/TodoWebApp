@@ -43,12 +43,14 @@ const SignUpPage = () => {
                             type="email"
                             name="email"
                             placeholder="Email"
+                            aria-autocomplete="none"
                         />
                         <input
                             className="rounded-full h-12 p-4 bg-fade enabled:outline-none"
                             type="password"
                             name="password"
                             placeholder="Password"
+                            aria-autocomplete="none"
                         />
                     </div>
                     <button

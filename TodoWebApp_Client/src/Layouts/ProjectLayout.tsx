@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
     AdjustmentsHorizontalIcon,
     EllipsisHorizontalIcon,
@@ -7,12 +7,16 @@ import { SectionComponent } from "../Components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { IProjectLayoutComponent } from "../Global/InterfaceComponents";
+import { IProject, IProjectUpdate } from "../Global";
+import { useDispatch } from "react-redux";
+import { setProjectUpdate } from "../States/ProjectUpdateReducer";
 
 const ProjectLayout: FC<IProjectLayoutComponent> = ({
     listSections,
     listProjects,
 }) => {
     const { projectId } = useParams();
+    const dispatch = useDispatch();
     let projectIdNumber: number | undefined;
 
     if (projectId) {
@@ -25,14 +29,18 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
     const projectById = listProjects.find(
         (project) => project.id === projectIdNumber
     );
+
+    useEffect(() => {
+        if (projectById) {
+            setProjectNameValue(projectById.name);
+        }
+    }, [projectById]);
     const [isOpenEditProjectName, setOpenEditprojectName] = useState(false);
-    const [projectNameValue, setProjectNameValue] = useState(projectById?.name);
+    const [projectNameValue, setProjectNameValue] = useState("");
 
     const sectionsWithProjectId = listSections.filter((section) => {
         return section.project_id === projectById?.id;
     });
-
-    // console.log(projectNameValue);
 
     const handleChangeProjectNameValue = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -54,7 +62,15 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
             },
         })
             .then((res) => {
-                console.log(res.data.objectData);
+                const projectUpdated: IProjectUpdate = res.data.objectData;
+                setProjectNameValue(projectUpdated.name);
+                dispatch(
+                    setProjectUpdate({
+                        id: projectUpdated.id,
+                        name: projectUpdated.name,
+                    })
+                );
+                closeEditprojectName();
             })
             .catch((error) => {
                 console.error("Cannot Update Project Name: ", error);
@@ -73,9 +89,10 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                             <div className="flex flex-col">
                                 <input
                                     type="text"
+                                    className=" text-2xl w-44 p-1 font-bold min-h-[auto]  rounded-lg border-2 border-black bg-transparent  outline-none"
                                     value={projectNameValue}
                                     onChange={handleChangeProjectNameValue}
-                                    className=" text-2xl w-44 p-1 font-bold min-h-[auto]  rounded-lg border-2 border-black bg-transparent  outline-none"
+                                    aria-autocomplete="none"
                                 />
                                 <div className="flex items-center mt-2 gap-3">
                                     <button
@@ -99,7 +116,7 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                                 className="text-2xl font-bold p-1 hover:bg-neutral-200 cursor-pointer"
                                 onClick={openEditprojectName}
                             >
-                                {projectById?.name}
+                                {projectNameValue}
                             </p>
                         )}
                     </div>

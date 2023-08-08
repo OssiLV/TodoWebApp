@@ -5,9 +5,11 @@ import App from "./App";
 import {
     DataTransferReducer,
     DueDateReducer,
+    ModalReducer,
     PriorityReducer,
     ProjectReducer,
     ProjectSoftDeleteReducer,
+    ProjectUpdateReducer,
     SectionReducer,
     TaskTodoHandleComplete,
     TaskTodoReducer,
@@ -44,7 +46,9 @@ const rootReducer = combineReducers({
     rootProjectSoftDeleteReducer: ProjectSoftDeleteReducer,
     rootDataTransferReducer: DataTransferReducer,
     rootTaskTodoReducer: TaskTodoReducer,
-    rootTaskTodoHandleComplete: TaskTodoHandleComplete,
+    rootTaskTodoHandleCompleteReducer: TaskTodoHandleComplete,
+    rootProjectUpdateReducer: ProjectUpdateReducer,
+    rootModalReducer: ModalReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

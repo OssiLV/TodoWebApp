@@ -1,6 +1,6 @@
 import { FC, Fragment, useEffect, useState } from "react";
 import { Modal, Ripple, initTE } from "tw-elements";
-import { IProject, IProject_FullData, ISection } from "../../Global/Interfaces";
+import { IProject, IProject_FullData, ISection } from "../../Global";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { setDataTransfer } from "../../States/DataTransferReducer";
@@ -51,7 +51,7 @@ const ModalCategoryComponent: FC<IModalCategoryComponent> = ({
     return (
         <div
             data-te-modal-init
-            className="fixed left-4 top-20 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+            className="fixed left-20 top-20 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
             id="modalCategoryComponent"
             aria-labelledby="category"
             aria-hidden="false"

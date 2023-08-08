@@ -3,8 +3,12 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Toast, initTE } from "tw-elements";
-import { IProject, RootState } from "../Global/Interfaces";
+import { IProject, RootStates } from "../Global";
 import { setProject } from "../States/ProjectReducer";
+import {
+    setProjectSoftDelete,
+    setProjectUndoDelete,
+} from "../States/ProjectSoftDeleteReducer";
 interface IToastMessageComponent {
     title: string;
     content: string;
@@ -18,7 +22,7 @@ const ToastMessageComponent: FC<IToastMessageComponent> = ({
     }, []);
     const dispatch = useDispatch();
     const _projectSoftDelete = useSelector(
-        (state: RootState) => state.rootProjectSoftDeleteReducer
+        (state: RootStates) => state.rootProjectSoftDeleteReducer
     );
     const handleUndoProjectDeleted = () => {
         axios({
@@ -26,15 +30,11 @@ const ToastMessageComponent: FC<IToastMessageComponent> = ({
             url: `/Project/undo/${_projectSoftDelete.id}`,
         })
             .then((res) => {
-                // console.log(res.data);
-                const newProject: IProject = res.data.objectData;
+                const undoProject: IProject = res.data.objectData;
                 dispatch(
-                    setProject({
-                        id: newProject.id,
-                        name: newProject.name,
-                        isFavorite: newProject.isFavorite,
-                        isDeleted: newProject.isDeleted,
-                        color: newProject.color,
+                    setProjectUndoDelete({
+                        id: undoProject.id,
+                        isDeleted: undoProject.isDeleted,
                     })
                 );
             })

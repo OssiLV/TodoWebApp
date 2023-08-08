@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProjectSoftDelete } from "./../Global/Interfaces";
+import { IProjectSoftDelete } from "./../Global";
 
 const initialProjectSoftDelete: IProjectSoftDelete = {
     id: 0,
@@ -17,8 +17,16 @@ export const ProjectSoftDeleteReducer = createSlice({
             state.id = action.payload.id;
             state.isDeleted = action.payload.isDeleted;
         },
+        setProjectUndoDelete: (
+            state: IProjectSoftDelete,
+            action: PayloadAction<IProjectSoftDelete>
+        ) => {
+            state.id = action.payload.id;
+            state.isDeleted = action.payload.isDeleted;
+        },
     },
 });
 
-export const { setProjectSoftDelete } = ProjectSoftDeleteReducer.actions;
+export const { setProjectSoftDelete, setProjectUndoDelete } =
+    ProjectSoftDeleteReducer.actions;
 export default ProjectSoftDeleteReducer.reducer;

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ISection } from "./../Global/Interfaces";
+import { ISection } from "./../Global";
 
 const initialSection: ISection = {
     id: 0,

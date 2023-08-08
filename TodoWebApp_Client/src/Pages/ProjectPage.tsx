@@ -1,21 +1,19 @@
 import { Fragment, useEffect, useState } from "react";
 import {
     ModalCategoryComponent,
+    ModalTaskTodoComponent,
     NavbarComponent,
     SidenavComponent,
 } from "../Components";
 import { ProjectLayout } from "../Layouts";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import {
-    IProject,
-    IProject_FullData,
-    ISection,
-    RootState,
-} from "../Global/Interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { IProject, IProject_FullData, ISection, RootStates } from "../Global";
 import { useParams } from "react-router-dom";
+import { setCloseModal } from "../States/ModalReducer";
 
 const ProjectPage = () => {
+    const dispatch = useDispatch();
     const { projectId } = useParams();
     let projectIdNumber: number | undefined;
 
@@ -26,43 +24,25 @@ const ProjectPage = () => {
             console.log(error);
         }
     }
-    const _user = useSelector((state: RootState) => state.rootUserReducer);
+    const _user = useSelector((state: RootStates) => state.rootUserReducer);
+    const _modal = useSelector((state: RootStates) => state.rootModalReducer);
     const _newProject = useSelector(
-        (state: RootState) => state.rootProjectReducer
+        (state: RootStates) => state.rootProjectReducer
+    );
+    const _projectSoftDelete = useSelector(
+        (state: RootStates) => state.rootProjectSoftDeleteReducer
     );
     const _newSection = useSelector(
-        (state: RootState) => state.rootSectionReducer
+        (state: RootStates) => state.rootSectionReducer
     );
-    // const [project, setProject] = useState<IProject>({
-    //     id: 0,
-    //     name: "",
-    //     color: { id: 0, name: "", tailwindBgHexCode: "" },
-    //     isDeleted: false,
-    //     isFavorite: false,
-    // });
+    const _updatedProject = useSelector(
+        (state: RootStates) => state.rootProjectUpdateReducer
+    );
     const [fullDataProject, setFullDataProject] = useState<IProject_FullData[]>(
         []
     );
     const [listSections, setListSections] = useState<ISection[]>([]);
     const [listProjects, setListProjects] = useState<IProject[]>([]);
-    // const projectById = listProjects.find(
-    //     (project) => project.id === projectIdNumber
-    // );
-    // let hehe: IProject = {
-    //     id: 0,
-    //     name: "",
-    //     color: {
-    //         id: 0,
-    //         name: "",
-    //         tailwindBgHexCode: "",
-    //     },
-    //     isDeleted: false,
-    //     isFavorite: false,
-    // };
-
-    // if (projectById !== undefined) {
-    //     hehe = projectById;
-    // }
 
     useEffect(() => {
         axios({
@@ -80,7 +60,7 @@ const ProjectPage = () => {
     }, [_user.id]);
 
     useEffect(() => {
-        setListProjects((prevState) => {
+        setListProjects(() => {
             const projects: IProject[] = fullDataProject.map(
                 (project: IProject) => ({
                     id: project.id,
@@ -90,6 +70,7 @@ const ProjectPage = () => {
                     color: project.color,
                 })
             );
+
             const uniqueArray = projects.reduce(
                 (acc: IProject[], current: IProject) => {
                     if (!acc.find((element) => element.id === current.id)) {
@@ -100,10 +81,10 @@ const ProjectPage = () => {
                 []
             );
 
-            return prevState.concat(uniqueArray);
+            return uniqueArray;
         });
 
-        setListSections((prevState) => {
+        setListSections(() => {
             const sections: ISection[] = fullDataProject.flatMap(
                 (project: IProject_FullData) =>
                     project.sections.map((section: ISection) => ({
@@ -122,9 +103,20 @@ const ProjectPage = () => {
                 []
             );
 
-            return prevState.concat(uniqueArray);
+            return uniqueArray;
         });
     }, [fullDataProject]);
+
+    useEffect(() => {
+        setListProjects((prevState) =>
+            prevState.reduce((acc: IProject[], current: IProject) => {
+                if (current.id === _projectSoftDelete.id) {
+                    current.isDeleted = _projectSoftDelete.isDeleted;
+                }
+                return acc;
+            }, [])
+        );
+    }, [_projectSoftDelete]);
 
     useEffect(() => {
         if (_newProject !== null) {
@@ -150,19 +142,38 @@ const ProjectPage = () => {
         }
     }, [_newSection]);
 
+    useEffect(() => {
+        setListProjects((prevState) =>
+            prevState.map((current: IProject) => {
+                if (current.id === _updatedProject.id) {
+                    // Return a new object with the updated name
+                    return { ...current, name: _updatedProject.name };
+                }
+                // Return the original object
+                return current;
+            })
+        );
+    }, [_updatedProject]);
+
     return (
-        <Fragment>
+        <div>
             <NavbarComponent />
             <SidenavComponent listProjects={listProjects} />
             <ProjectLayout
                 listSections={listSections}
                 listProjects={listProjects}
             />
+            {_modal.isOpen && (
+                <ModalTaskTodoComponent
+                    listProjects={listProjects}
+                    listSections={listSections}
+                />
+            )}
             <ModalCategoryComponent
                 listProjects={listProjects}
                 listSections={listSections}
             />
-        </Fragment>
+        </div>
     );
 };
 

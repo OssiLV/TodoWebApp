@@ -1,4 +1,4 @@
-import Task from "./Task";
+import TaskComponent from "./TaskComponent";
 import NavbarComponent from "./NavbarComponent";
 import SidenavComponent from "./SidenavComponent";
 import ModalAddTaskComponent from "./Modals/ModalAddTaskComponent";
@@ -8,8 +8,9 @@ import ModalDueDateComponent from "./Modals/ModalDueDateComponent";
 import SectionComponent from "./SectionComponent";
 import ModalCategoryComponent from "./Modals/ModalCategoryComponent";
 import ToastMessageComponent from "./ToastMessageComponent";
+import ModalTaskTodoComponent from "./Modals/ModalTaskTodoComponent";
 export {
-    Task,
+    TaskComponent,
     ModalAddTaskComponent,
     ModalAddProjectComponent,
     ModalDueDateComponent,
@@ -19,4 +20,5 @@ export {
     SectionComponent,
     ModalCategoryComponent,
     ToastMessageComponent,
+    ModalTaskTodoComponent,
 };

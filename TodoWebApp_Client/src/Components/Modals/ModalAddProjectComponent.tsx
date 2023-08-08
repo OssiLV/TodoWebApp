@@ -2,14 +2,14 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { Modal, initTE } from "tw-elements";
 import axios from "axios";
-import { IColor, IProject, RootState } from "../../Global/Interfaces";
+import { IColor, IProject, RootStates } from "../../Global";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProject } from "../../States/ProjectReducer";
 
 const ModalAddProjectComponent = () => {
     const dispatch = useDispatch();
-    const _user = useSelector((state: RootState) => state.rootUserReducer);
+    const _user = useSelector((state: RootStates) => state.rootUserReducer);
     const [listColors, setListColors] = useState<IColor[]>([]);
 
     const [colorForClass, setColorForClass] = useState("");
@@ -52,8 +52,7 @@ const ModalAddProjectComponent = () => {
                 user_id: _user.id,
             },
         }).then((res) => {
-            // console.log(res.data.objectData);
-            // onHandleAddNewProject(res.data.objectData);
+            setProjectname("");
             const newProject: IProject = res.data.objectData;
             dispatch(
                 setProject({
@@ -128,6 +127,7 @@ const ModalAddProjectComponent = () => {
                                 placeholder="Project Name"
                                 value={projectName}
                                 onChange={handleChangeValueProjectName}
+                                aria-autocomplete="none"
                             />
                         </div>
 

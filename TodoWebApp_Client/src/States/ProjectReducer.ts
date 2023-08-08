@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProject } from "./../Global/Interfaces";
+import { IProject } from "./../Global";
 
 const initialProject: IProject = {
     id: 0,

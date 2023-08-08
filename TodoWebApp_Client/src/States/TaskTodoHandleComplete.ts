@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITaskTodoHandleComplete } from "../Global/Interfaces";
+import { ITaskTodoHandleComplete } from "../Global";
 
 const initialTaskTodoHandleComplete: ITaskTodoHandleComplete = {
     id: 0,
@@ -17,8 +17,16 @@ export const TaskTodoHandleCompleteReducer = createSlice({
             state.id = action.payload.id;
             state.isCompleted = action.payload.isCompleted;
         },
+        setTaskTodoUndoComplete: (
+            state: ITaskTodoHandleComplete,
+            action: PayloadAction<ITaskTodoHandleComplete>
+        ) => {
+            state.id = action.payload.id;
+            state.isCompleted = action.payload.isCompleted;
+        },
     },
 });
 
-export const { setTaskTodoComplete } = TaskTodoHandleCompleteReducer.actions;
+export const { setTaskTodoComplete, setTaskTodoUndoComplete } =
+    TaskTodoHandleCompleteReducer.actions;
 export default TaskTodoHandleCompleteReducer.reducer;

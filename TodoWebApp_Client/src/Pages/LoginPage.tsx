@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { IUser } from "../Global/Interfaces";
+import { IUser } from "../Global";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../States/UserReducer";
 
@@ -10,7 +10,7 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     const [error, setError] = useState("");
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         axios
@@ -58,12 +58,14 @@ const LoginPage = () => {
                             type="email"
                             name="email"
                             placeholder="Email"
+                            aria-autocomplete="none"
                         />
                         <input
                             className="rounded-full h-12 p-4 bg-fade enabled:outline-none"
                             type="password"
                             name="password"
                             placeholder="Password"
+                            aria-autocomplete="none"
                         />
                     </div>
                     <button

@@ -1,8 +1,7 @@
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, FC, Fragment, useEffect, useState } from "react";
-import { ISection, ITask, RootState } from "../Global/Interfaces";
-import Task from "./Task";
+import { ISection, ITaskTodo, RootStates } from "../Global";
 import clsx from "clsx";
 import ShowDueDateComponent from "./ShowDueDateComponent";
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
@@ -12,26 +11,27 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { setSection } from "../States/SectionReducer";
 import ModalOptionProjectComponent from "./Modals/ModalOptionProjectComponent";
-import { formatDate } from "../Global/DateOption";
+import { formatDate } from "../Global";
+import TaskComponent from "./TaskComponent";
 
 const SectionComponent: FC<ISection> = ({ id, name }) => {
     const dispatch = useDispatch();
     const { projectId } = useParams();
 
     const _priority = useSelector(
-        (state: RootState) => state.rootPriorityReducer
+        (state: RootStates) => state.rootPriorityReducer
     );
     const _newTaskTodo = useSelector(
-        (state: RootState) => state.rootTaskTodoReducer
+        (state: RootStates) => state.rootTaskTodoReducer
     );
     const _taskTodoComplete = useSelector(
-        (state: RootState) => state.rootTaskTodoHandleComplete
+        (state: RootStates) => state.rootTaskTodoHandleCompleteReducer
     );
     const _dataTransfer = useSelector(
-        (state: RootState) => state.rootDataTransferReducer
+        (state: RootStates) => state.rootDataTransferReducer
     );
 
-    const [tasks, setTasks] = useState<ITask[]>([]);
+    const [tasks, setTasks] = useState<ITaskTodo[]>([]);
     const [dateTime, setDateTime] = useState("");
     const [taskName, setTaskName] = useState("");
     const [description, setDescription] = useState("");
@@ -260,7 +260,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                             return (
                                 !task?.isCompleted &&
                                 id === task?.section_id && (
-                                    <Task
+                                    <TaskComponent
                                         key={task.id}
                                         id={task.id}
                                         name={task.name}
@@ -283,6 +283,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                             className="w-full font-bold border-0 outline-none"
                                             onChange={handleChangeValueTaskname}
                                             value={taskName}
+                                            aria-autocomplete="none"
                                         />
                                         <input
                                             type="text"
@@ -292,6 +293,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                                 handleChangeValueDescription
                                             }
                                             value={description}
+                                            aria-autocomplete="none"
                                         />
                                     </div>
                                     <div className="mt-1">
@@ -416,6 +418,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                             className="font-bold border rounded-lg p-2 w-full outline-none "
                             onChange={handleChangeValueSectionName}
                             value={sectionName}
+                            aria-autocomplete="none"
                         />
                         <div className="flex items-center mt-2">
                             <button

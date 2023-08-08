@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITask } from "./../Global/Interfaces";
+import { ITaskTodo } from "./../Global";
 
-const initialTaskTodo: ITask = {
+const initialTaskTodo: ITaskTodo = {
     id: 0,
     name: "",
     description: "",
@@ -15,7 +15,7 @@ export const TaskTodoReducer = createSlice({
     name: "TaskTodoReducer",
     initialState: initialTaskTodo,
     reducers: {
-        setTaskTodo: (state: ITask, action: PayloadAction<ITask>) => {
+        setTaskTodo: (state: ITaskTodo, action: PayloadAction<ITaskTodo>) => {
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.description = action.payload.description;

@@ -75,7 +75,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Set isCompleted: true", true);
         }
 
-        public async Task<ResponseObjectDto> HanldeNotCompletedTaskTodo( long id )
+        public async Task<ResponseObjectDto> HanldeUndoCompletedTaskTodo( long id )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);
             if(checkTask == null) return new ResponseObjectDto("Cannot find Task with that id");

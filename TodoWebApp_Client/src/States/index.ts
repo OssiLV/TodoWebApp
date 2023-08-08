@@ -7,6 +7,8 @@ import ProjectSoftDeleteReducer from "./ProjectSoftDeleteReducer";
 import DataTransferReducer from "./DataTransferReducer";
 import TaskTodoReducer from "./TaskTodoReducer";
 import TaskTodoHandleComplete from "./TaskTodoHandleComplete";
+import ProjectUpdateReducer from "./ProjectUpdateReducer";
+import ModalReducer from "./ModalReducer";
 export {
     UserReducer,
     ProjectReducer,
@@ -17,4 +19,6 @@ export {
     DataTransferReducer,
     TaskTodoReducer,
     TaskTodoHandleComplete,
+    ProjectUpdateReducer,
+    ModalReducer,
 };

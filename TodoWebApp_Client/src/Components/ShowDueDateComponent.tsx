@@ -9,22 +9,23 @@ import {
     isValid,
 } from "date-fns";
 import { FC, Fragment, useEffect } from "react";
-import { RootState } from "../Global/Interfaces";
+import { RootStates, formatDate } from "../Global";
 import { useSelector } from "react-redux";
 import {
     ForwardIcon,
     MusicalNoteIcon,
     SunIcon,
 } from "@heroicons/react/24/outline";
-import { formatDate } from "../Global/DateOption";
+
 interface IShowDueDateComponent {
     setDateTime: Function;
 }
 const ShowDueDateComponent: FC<IShowDueDateComponent> = ({ setDateTime }) => {
     const { fullDateTime } = useSelector(
-        (state: RootState) => state.rootDueDateReducer
+        (state: RootStates) => state.rootDueDateReducer
     );
     let dateTime = new Date(fullDateTime);
+
     useEffect(() => {
         if (isValid(dateTime)) {
             setDateTime(formatDate(dateTime));

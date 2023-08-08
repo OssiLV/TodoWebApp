@@ -94,7 +94,7 @@
             Update Task Completed
             </summary>
         </member>
-        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.HanldeNotCompletedTaskTodo(System.Int64)">
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.HanldeUndoCompletedTaskTodo(System.Int64)">
             <summary>
             Update Task not Complete
             </summary>

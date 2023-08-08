@@ -1,5 +1,5 @@
-import { FC, Fragment } from "react";
-import { ITask } from "../Global/Interfaces";
+import { FC, MouseEvent, useState } from "react";
+import { ITaskTodo } from "../Global";
 import {
     CalendarIcon,
     EllipsisHorizontalIcon,
@@ -8,7 +8,7 @@ import {
     PencilIcon,
     SunIcon,
 } from "@heroicons/react/24/outline";
-import { parseDate } from "../Global/DateOption";
+import { parseDate } from "../Global";
 import {
     format,
     isSameDay,
@@ -21,10 +21,11 @@ import {
 import clsx from "clsx";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setTaskTodo } from "../States/TaskTodoReducer";
 import { setTaskTodoComplete } from "../States/TaskTodoHandleComplete";
+import ModalTaskTodoComponent from "./Modals/ModalTaskTodoComponent";
+import { setOpenModal } from "../States/ModalReducer";
 
-const Task: FC<ITask> = ({
+const TaskComponent: FC<ITaskTodo> = ({
     id,
     name,
     due_Date,
@@ -36,34 +37,45 @@ const Task: FC<ITask> = ({
     const dispatch = useDispatch();
     const fullDateTime = new Date(due_Date);
 
-    const handleOpenModalTask = () => {
-        console.log("Modal");
+    const openTaskModal = () => {
+        dispatch(
+            setOpenModal({
+                data: {
+                    id,
+                    name,
+                    due_Date,
+                    description,
+                    priority,
+                    section_id,
+                },
+                isOpen: true,
+            })
+        );
     };
-    const hanldeEditTask = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+    const closeTaskModal = () => {};
+
+    const hanldeEditTask = (event: MouseEvent<HTMLButtonElement>) => {
         //Cancel parent event
         event.stopPropagation();
 
         console.log("edit");
     };
 
-    const hanldeOpenDueDateModal = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
+    const hanldeOpenDueDateModal = (event: MouseEvent<HTMLButtonElement>) => {
         //Cancel parent event
         event.stopPropagation();
 
         console.log("DueDate");
     };
-    const hanldeOption = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const hanldeOption = (event: MouseEvent<HTMLButtonElement>) => {
         //Cancel parent event
         event.stopPropagation();
 
         console.log("Option");
     };
 
-    const handleCompletedTaskTodo = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
+    const handleCompletedTaskTodo = (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         axios({
             method: "PUT",
@@ -80,7 +92,7 @@ const Task: FC<ITask> = ({
     return (
         <div
             className="select-none w-full cursor-pointer group "
-            onClick={handleOpenModalTask}
+            onClick={openTaskModal}
         >
             <div className=" flex flex-col mt-2 ">
                 {/* CHECK-BUTTON */}
@@ -93,15 +105,15 @@ const Task: FC<ITask> = ({
                         >
                             <div
                                 className={clsx(
-                                    "p-[8px] border-[2px] rounded-full w-4 h-4  transition-all duration-200 ease-linear hover:w-6 hover:h-6 ",
+                                    "p-[8px] border-[2px] rounded-full w-4 h-4 hover:bg-opacity-30 transition-all duration-200 ease-linear hover:w-6 hover:h-6 ",
                                     {
-                                        "border-red-600 hover:bg-red-600 hover:bg-opacity-30":
+                                        "border-red-600 hover:bg-red-600":
                                             priority === "P1",
-                                        "border-yellow-200 hover:bg-yellow-200 hover:bg-opacity-30":
+                                        "border-orange-500 hover:bg-orange-500":
                                             priority === "P2",
-                                        "border-primary hover:bg-primary hover:bg-opacity-30":
+                                        "border-primary hover:bg-primary":
                                             priority === "P3",
-                                        "border-neutral-500 hover:bg-neutral-500 hover:bg-opacity-30":
+                                        "border-neutral-500 hover:bg-neutral-500":
                                             priority === "P4",
                                     }
                                 )}
@@ -113,7 +125,7 @@ const Task: FC<ITask> = ({
                                 : name}
                         </p>
                     </div>
-                    <div className=" flex gap-4 opacity-60 z-50">
+                    <div className=" flex gap-4 opacity-60">
                         <span
                             className="w-6 h-6 child Desktop:hidden Desktop:group-hover:block Desktop:hover:bg-neutral-200"
                             onClick={hanldeEditTask}
@@ -202,4 +214,4 @@ const Task: FC<ITask> = ({
     );
 };
 
-export default Task;
+export default TaskComponent;

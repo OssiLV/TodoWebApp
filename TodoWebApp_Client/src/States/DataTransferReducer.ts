@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IDataTransfer } from "../Global/Interfaces";
+import { IDataTransfer } from "../Global";
 
 const initialDataTransfer: IDataTransfer = {
     id: 0,

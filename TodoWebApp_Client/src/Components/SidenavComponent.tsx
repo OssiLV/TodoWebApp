@@ -9,11 +9,11 @@ import { Sidenav, initTE } from "tw-elements";
 import { useMediaQuery } from "react-responsive";
 import ModalAddProjectComponent from "./Modals/ModalAddProjectComponent";
 
-import { IListProject } from "../Global/Interfaces";
+import { ISidenavComponent } from "../Global";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 
-const SidenavComponent: FC<IListProject> = ({ listProjects }) => {
+const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
     useEffect(() => {
         initTE({ Sidenav });
     }, []);
@@ -30,7 +30,7 @@ const SidenavComponent: FC<IListProject> = ({ listProjects }) => {
             <ModalAddProjectComponent />
             <nav
                 id="sidebar"
-                className="fixed mt-[3.1rem] left-0 top-0 z-[1035] h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800 "
+                className="fixed mt-[3.1rem] left-0 top-0 z-10 h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800 "
                 data-te-sidenav-init
                 data-te-sidenav-hidden="false"
                 data-te-sidenav-mode={isMobile ? "over" : "side"}

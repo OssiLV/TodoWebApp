@@ -14,9 +14,11 @@ module.exports = {
             white: "#fff",
             black: "#09090b",
 
-            // Color-Picker
-
-            // End Color-Picker
+            orange: {
+                400: "#fb923c",
+                500: "#f97316",
+                600: "#ea580c",
+            },
 
             red: {
                 500: "#ef4444",
@@ -39,6 +41,8 @@ module.exports = {
                 200: "#e5e7eb",
                 300: "#d1d5db",
                 400: "#9ca3af",
+                500: "#6b7280",
+                600: "#4b5563",
                 900: "#111827",
             },
             slate: {

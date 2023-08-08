@@ -2,24 +2,25 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { Modal, Ripple, initTE } from "tw-elements";
 import { useDispatch, useSelector } from "react-redux";
-import { ITask, RootState } from "../../Global/Interfaces";
+import { ITaskTodo, RootStates } from "../../Global";
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
 import { FlagIcon as SFlagIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import ShowDueDateComponent from "../ShowDueDateComponent";
 import axios from "axios";
-import { formatDate } from "../../Global/DateOption";
+import { formatDate } from "../../Global";
 import { setTaskTodo } from "../../States/TaskTodoReducer";
+import { setDueDate } from "../../States/DueDateReducer";
 const ModalAddTaskComponent = () => {
     useEffect(() => {
         initTE({ Modal, Ripple });
     }, []);
     const dispatch = useDispatch();
     const _priority = useSelector(
-        (state: RootState) => state.rootPriorityReducer
+        (state: RootStates) => state.rootPriorityReducer
     );
     const _dataTransfer = useSelector(
-        (state: RootState) => state.rootDataTransferReducer
+        (state: RootStates) => state.rootDataTransferReducer
     );
     let _projectName = _dataTransfer.categories.split("$_*_/_*_$")[0];
     let _sectionName = _dataTransfer.categories?.split("$_*_/_*_$")[1];
@@ -41,6 +42,13 @@ const ModalAddTaskComponent = () => {
     };
 
     const handleAddTask = () => {
+        dispatch(
+            setDueDate({
+                type: "",
+                fullDateTime:
+                    "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)",
+            })
+        );
         axios({
             method: "POST",
             url: "/TaskTodo",
@@ -56,7 +64,7 @@ const ModalAddTaskComponent = () => {
             },
         })
             .then((res) => {
-                const newTaskTodo: ITask = res.data.objectData;
+                const newTaskTodo: ITaskTodo = res.data.objectData;
 
                 dispatch(
                     setTaskTodo({
@@ -73,6 +81,15 @@ const ModalAddTaskComponent = () => {
             .catch((error) => {
                 console.error("Cannot Create Task: ", error);
             });
+    };
+    const handleCancel = () => {
+        dispatch(
+            setDueDate({
+                type: "",
+                fullDateTime:
+                    "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)",
+            })
+        );
     };
 
     useEffect(() => {
@@ -114,6 +131,7 @@ const ModalAddTaskComponent = () => {
                                 placeholder="Task Name"
                                 value={taskName}
                                 onChange={handleChangeValueTaskName}
+                                aria-autocomplete="none"
                             />
                         </div>
 
@@ -125,6 +143,7 @@ const ModalAddTaskComponent = () => {
                                 placeholder="Description"
                                 value={description}
                                 onChange={handleChangeValueDescription}
+                                aria-autocomplete="none"
                             />
                         </div>
 
@@ -167,7 +186,7 @@ const ModalAddTaskComponent = () => {
                                                 className={clsx(`w-4 h-4 `, {
                                                     "text-red-600":
                                                         _priority.name === "P1",
-                                                    "text-yellow-200":
+                                                    "text-orange-500":
                                                         _priority.name === "P2",
                                                     "text-primary":
                                                         _priority.name === "P3",
@@ -267,6 +286,7 @@ const ModalAddTaskComponent = () => {
                                     data-te-modal-dismiss
                                     data-te-ripple-init
                                     data-te-ripple-color="light"
+                                    onClick={handleCancel}
                                 >
                                     Cancel
                                 </button>

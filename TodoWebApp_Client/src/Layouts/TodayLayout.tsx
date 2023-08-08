@@ -3,11 +3,10 @@ import {
     AdjustmentsHorizontalIcon,
     EllipsisHorizontalIcon,
 } from "@heroicons/react/24/solid";
-import { ITask } from "../Global/Interfaces";
-import { Task } from "../Components";
+import { ITaskTodo } from "../Global";
 
 const TodayLayout = () => {
-    const [tasks, setTasks] = useState<Array<ITask>>([]);
+    const [tasks, setTasks] = useState<Array<ITaskTodo>>([]);
 
     useEffect(() => {
         // const _tasks: ITask[] = [

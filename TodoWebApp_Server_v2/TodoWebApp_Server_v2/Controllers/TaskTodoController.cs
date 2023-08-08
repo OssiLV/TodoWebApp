@@ -57,10 +57,10 @@ namespace TodoWebApp_Server_v2.Controllers
         /// <summary>
         /// Update Task not Complete
         /// </summary>
-        [HttpPut("notcomplete/{id}")]
-        public async Task<IActionResult> HanldeNotCompletedTaskTodo( [FromRoute] long id )
+        [HttpPut("undocomplete/{id}")]
+        public async Task<IActionResult> HanldeUndoCompletedTaskTodo( [FromRoute] long id )
         {
-            var response = await _taskTodoService.HanldeNotCompletedTaskTodo(id);
+            var response = await _taskTodoService.HanldeUndoCompletedTaskTodo(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);

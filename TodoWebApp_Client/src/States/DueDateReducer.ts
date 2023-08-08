@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IDueDate } from "../Global/Interfaces";
+import { IDueDate } from "../Global";
 
 const initialDueDate: IDueDate = {
     type: "",
