@@ -8,6 +8,7 @@
         public bool IsCompleted { get; set; }
         public string Due_Date { get; set; }
         public string CreatedAt { get; set; }
+        public long Project_id { get; set; }
         public long Section_id { get; set; }
         public string? SectionName { get; set; }
 

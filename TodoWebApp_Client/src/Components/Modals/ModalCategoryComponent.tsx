@@ -43,9 +43,29 @@ const ModalCategoryComponent: FC<IModalCategoryComponent> = ({
         categories: string,
         tailwindBgHexCode: string,
         name?: string,
-        id?: number
+        project_id?: number,
+        section_id?: number
     ) => {
-        dispatch(setDataTransfer({ id, name, categories, tailwindBgHexCode }));
+        // When select project it send default name section and id project
+        // When select section in project it send id section and empty name
+
+        console.log({
+            project_id: project_id,
+            section_id: section_id,
+            name,
+            categories,
+            tailwindBgHexCode,
+        });
+
+        dispatch(
+            setDataTransfer({
+                project_id,
+                section_id,
+                name,
+                categories,
+                tailwindBgHexCode,
+            })
+        );
     };
 
     return (
@@ -76,6 +96,7 @@ const ModalCategoryComponent: FC<IModalCategoryComponent> = ({
                                                         `${project.name}`,
                                                         `${project.color.tailwindBgHexCode}`,
                                                         "Default",
+                                                        project.id,
                                                         0
                                                     )
                                                 }
@@ -130,6 +151,7 @@ const ModalCategoryComponent: FC<IModalCategoryComponent> = ({
                                                                         `${project.name}$_*_/_*_$${section.name}`,
                                                                         `${project.color.tailwindBgHexCode}`,
                                                                         "",
+                                                                        0,
                                                                         section.id
                                                                     )
                                                                 }

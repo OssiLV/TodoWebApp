@@ -30,9 +30,22 @@ namespace TodoWebApp_Server_v2.Controllers
         }
 
         /// <summary>
+        /// Get all Task Todo by User_id
+        /// </summary>
+        [HttpGet("userid/{id}")]
+        public async Task<IActionResult> GetAllTaskTodoInSectionByProjectId( [FromRoute] Guid id )
+        {
+            var response = await _taskTodoService.GetAllTaskTodoByUserId(id);
+
+            if(response.IsSuccess()) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        /// <summary>
         /// Get all Task Todo in All Sections By Project-id
         /// </summary>
-        [HttpGet("{id}")]
+        [HttpGet("projectid/{id}")]
         public async Task<IActionResult> GetAllTaskTodoInSectionByProjectId( [FromRoute] long id )
         {
             var response = await _taskTodoService.GetAllTaskTodoInSectionByProjectId(id);
@@ -55,12 +68,36 @@ namespace TodoWebApp_Server_v2.Controllers
         }
 
         /// <summary>
-        /// Update Task not Complete
+        /// Undo task completed
         /// </summary>
         [HttpPut("undocomplete/{id}")]
         public async Task<IActionResult> HanldeUndoCompletedTaskTodo( [FromRoute] long id )
         {
             var response = await _taskTodoService.HanldeUndoCompletedTaskTodo(id);
+            if(response.IsSuccess()) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        /// <summary>
+        /// Update priotity for TaskTodo
+        /// </summary>
+        [HttpPut("priority/{id}")]
+        public async Task<IActionResult> UpdatePriorityById( [FromRoute] long id, [FromBody] TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest )
+        {
+            var response = await _taskTodoService.UpdatePriorityById(id, taskTodoPriorityUpdateRequest);
+            if(response.IsSuccess()) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        /// <summary>
+        /// Update Due Date for TaskTodo
+        /// </summary>
+        [HttpPut("duedate/{id}")]
+        public async Task<IActionResult> UpdateDueDateById( [FromRoute] long id, [FromBody] TaskTodoDueDateUpdateRequest taskTodoDueDateUpdateRequest )
+        {
+            var response = await _taskTodoService.UpdateDueDateById(id, taskTodoDueDateUpdateRequest);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);

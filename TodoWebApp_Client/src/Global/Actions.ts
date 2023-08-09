@@ -1,7 +1,9 @@
-import { format, parse } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 
 export const formatDate = (date: Date): string => {
+    // if (isValid(date)) {
     return format(date, "MM/dd/yyyy hh:mm:ss aa");
+    // } else return "0";
 };
 
 export const parseDate = (dateFormatted: string): Date => {

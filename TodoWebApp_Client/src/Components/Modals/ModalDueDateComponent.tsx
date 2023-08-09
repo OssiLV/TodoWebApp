@@ -34,6 +34,7 @@ const ModalDueDateComponent = () => {
     const hanldeChangeOptionDueDate = (fullDateTime: Date) => {
         dispatch(
             setDueDate({
+                task_id: 0,
                 type: "OPTIONS",
                 fullDateTime: endOfDay(fullDateTime).toString(),
             })

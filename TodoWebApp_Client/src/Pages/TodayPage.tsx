@@ -45,7 +45,7 @@ const TodayPage = () => {
 
     useEffect(() => {
         setListProjects((prevState) => {
-            const projects: IProject[] = fullDataProject.map(
+            const projects: IProject[] = fullDataProject?.map(
                 (project: IProject) => ({
                     id: project.id,
                     name: project.name,
@@ -54,7 +54,7 @@ const TodayPage = () => {
                     color: project.color,
                 })
             );
-            const uniqueArray = projects.reduce(
+            const uniqueArray = projects?.reduce(
                 (acc: IProject[], current: IProject) => {
                     if (!acc.find((element) => element.id === current.id)) {
                         acc.push(current);
@@ -68,7 +68,7 @@ const TodayPage = () => {
         });
 
         setListSections((prevState) => {
-            const sections: ISection[] = fullDataProject.flatMap(
+            const sections: ISection[] = fullDataProject?.flatMap(
                 (project: IProject_FullData) =>
                     project.sections.map((section: ISection) => ({
                         id: section.id,
@@ -76,7 +76,7 @@ const TodayPage = () => {
                         project_id: section.project_id,
                     }))
             );
-            const uniqueArray = sections.reduce(
+            const uniqueArray = sections?.reduce(
                 (acc: ISection[], current: ISection) => {
                     if (!acc.find((element) => element.id === current.id)) {
                         acc.push(current);

@@ -1,7 +1,7 @@
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, FC, Fragment, useEffect, useState } from "react";
-import { ISection, ITaskTodo, RootStates } from "../Global";
+import { ISection, ITaskTodo, RootStates, parseDate } from "../Global";
 import clsx from "clsx";
 import ShowDueDateComponent from "./ShowDueDateComponent";
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
@@ -13,11 +13,15 @@ import { setSection } from "../States/SectionReducer";
 import ModalOptionProjectComponent from "./Modals/ModalOptionProjectComponent";
 import { formatDate } from "../Global";
 import TaskComponent from "./TaskComponent";
+import { setDueDate } from "../States/DueDateReducer";
 
 const SectionComponent: FC<ISection> = ({ id, name }) => {
     const dispatch = useDispatch();
     const { projectId } = useParams();
 
+    const { task_id, type, fullDateTime } = useSelector(
+        (state: RootStates) => state.rootDueDateReducer
+    );
     const _priority = useSelector(
         (state: RootStates) => state.rootPriorityReducer
     );
@@ -26,9 +30,6 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
     );
     const _taskTodoComplete = useSelector(
         (state: RootStates) => state.rootTaskTodoHandleCompleteReducer
-    );
-    const _dataTransfer = useSelector(
-        (state: RootStates) => state.rootDataTransferReducer
     );
 
     const [tasks, setTasks] = useState<ITaskTodo[]>([]);
@@ -103,7 +104,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: `TaskTodo/${projectId}`,
+            url: `TaskTodo/projectid/${projectId}`,
         })
             .then((res) => {
                 setTasks(res.data.objectData);
@@ -111,6 +112,29 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
             })
             .catch((error) => console.error("Cannot get all Tasks: " + error));
     }, [projectId]);
+
+    useEffect(() => {
+        const tasksCopy = [...tasks];
+        tasksCopy.map((task) => {
+            if (task.id === _priority.id) {
+                task.priority = _priority.name;
+            }
+        });
+        setTasks(tasksCopy);
+    }, [_priority]);
+
+    useEffect(() => {
+        if (type === "UPDATE" && task_id !== 0) {
+            const tasksCopy = [...tasks];
+            tasksCopy.map((task) => {
+                if (task.id === task_id) {
+                    task.due_Date = formatDate(new Date(fullDateTime));
+                }
+            });
+
+            setTasks(tasksCopy);
+        }
+    }, [fullDateTime, task_id]);
 
     const handleChangeValueTaskname = (
         event: ChangeEvent<HTMLInputElement>
@@ -130,6 +154,8 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
 
     const hanldeOpenAddTask = () => {
         setOpenAddTask((previous) => !previous);
+        setDescription("");
+        setTaskName("");
     };
 
     const handleOpenAddSection = () => {
@@ -169,7 +195,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
     };
 
     const handleAddTask = (sectionId: number) => {
-        console.log(_dataTransfer);
+        console.log(_priority.name);
 
         axios({
             method: "POST",
@@ -177,7 +203,7 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
             data: {
                 name: taskName,
                 description: description,
-                priority: _priority.name,
+                priority: _priority.name === "" ? "P4" : _priority.name,
                 isCompleted: false,
                 due_Date: dateTime,
                 createdAt: formatDate(new Date()),
@@ -316,10 +342,9 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                                 className="flex items-center w-26 text-sm border border-opacity-50 rounded-lg p-[6px]  hover:bg-gray-300 hover:cursor-pointer"
                                                 data-te-toggle="modal"
                                                 data-te-target="#priorityoption"
-                                                data-te-ripple-init
-                                                data-te-ripple-color="light"
                                             >
-                                                {_priority.name === "P4" ? (
+                                                {_priority.name === "" ||
+                                                _priority.name === "P4" ? (
                                                     <div className="flex items-center opacity-50">
                                                         <span>
                                                             <OFlagIcon

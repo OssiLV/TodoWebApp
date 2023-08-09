@@ -1,5 +1,4 @@
-import { FC, Fragment, MouseEvent, useEffect, useState } from "react";
-import ReactAudioPlayer from "react-audio-player";
+import { FC, Fragment, MouseEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCloseModal, setOpenModal } from "../../States/ModalReducer";
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
@@ -13,7 +12,6 @@ import {
     SunIcon,
     MusicalNoteIcon,
     ForwardIcon,
-    FlagIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import {
@@ -23,10 +21,8 @@ import {
     ITaskTodo,
     RootStates,
     formatDate,
-    isEmptyObject,
     parseDate,
 } from "../../Global";
-
 import { Ripple, initTE } from "tw-elements";
 import axios from "axios";
 import {
@@ -34,7 +30,6 @@ import {
     setTaskTodoUndoComplete,
 } from "../../States/TaskTodoHandleComplete";
 import {
-    format,
     isSameDay,
     isToday,
     isTomorrow,
@@ -42,8 +37,9 @@ import {
     startOfDay,
     subDays,
 } from "date-fns";
-import { useNavigate } from "react-router-dom";
+
 import { setPriority } from "../../States/PriorityReducer";
+import { setDueDate } from "../../States/DueDateReducer";
 
 const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
     listProjects,
@@ -54,7 +50,7 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
     }, []);
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+
     const { fullDateTime } = useSelector(
         (state: RootStates) => state.rootDueDateReducer
     );
@@ -63,14 +59,11 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
     );
     const _modal = useSelector((state: RootStates) => state.rootModalReducer);
     const _taskTodo: ITaskTodo = _modal.data;
-    const dueDateTaskTodo = parseDate(_taskTodo.due_Date);
-
-    let priority = "";
+    let dueDateTaskTodo = parseDate(_taskTodo.due_Date);
 
     const [section, setSection] = useState<ISection>();
     const [project, setProject] = useState<IProject>();
     const [completed, setCompleted] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
 
     let dateTime = new Date(
         "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)"
@@ -81,7 +74,15 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
 
     const handleCloseModal = () => {
         dispatch(setCloseModal({ data: {}, isOpen: false }));
-        dispatch(setPriority({ type: "ADDTASK", name: "" }));
+        dispatch(setPriority({ id: 0, type: "ADDTASK", name: "" }));
+        dispatch(
+            setDueDate({
+                task_id: 0,
+                type: "",
+                fullDateTime:
+                    "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)",
+            })
+        );
     };
 
     const handlePreventEventFromParent = (
@@ -144,6 +145,38 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
             })
         );
     };
+
+    useEffect(() => {
+        if (
+            fullDateTime !==
+                "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)" &&
+            fullDateTime !== ""
+        ) {
+            axios({
+                method: "PUT",
+                url: `TaskTodo/duedate/${_taskTodo.id}`,
+                data: {
+                    due_Date: formatDate(dateTime),
+                },
+            })
+                .then((res) => {
+                    console.log(fullDateTime);
+                    dispatch(
+                        setDueDate({
+                            task_id: _taskTodo.id,
+                            type: "UPDATE",
+                            fullDateTime,
+                        })
+                    );
+                })
+                .catch((error) => {
+                    console.error(
+                        "Cannot update DueDate for this Task: " + error
+                    );
+                });
+        }
+    }, [fullDateTime]);
+
     useEffect(() => {
         setSection(
             listSections.find((section) => section.id === _taskTodo.section_id)
@@ -156,18 +189,38 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
         );
     }, [section, listProjects]);
 
-    //Update Priority
-    useEffect(() => {
-        if (_priority.name === "") {
-        }
-    }, [_taskTodo, _priority]);
+    // Copy _taskTodo
+    const taskTodo = useMemo(() => {
+        return {
+            ..._taskTodo,
+        };
+    }, [_taskTodo]);
+
+    if (_priority.name !== "") {
+        taskTodo.priority = _priority.name;
+    }
 
     useEffect(() => {
-        priority = _priority.name;
-        if (_priority.name !== "") {
-            _taskTodo.priority = _priority.name;
-        }
-    }, [_taskTodo, _priority]);
+        axios({
+            method: "PUT",
+            url: `/TaskTodo/priority/${taskTodo.id}`,
+            data: {
+                priority: taskTodo.priority,
+            },
+        })
+            .then((res) => {
+                dispatch(
+                    setPriority({
+                        id: taskTodo.id,
+                        name: taskTodo.priority,
+                        type: "MODALTASK",
+                    })
+                );
+            })
+            .catch((error) => {
+                console.error("Cannot update priority for this task: " + error);
+            });
+    }, [taskTodo.priority, taskTodo.id]);
 
     return (
         <div
@@ -264,13 +317,13 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
                                             "p-[8px] cursor-pointer border-[2px] rounded-full w-5 h-5  ",
                                             {
                                                 "border-red-600 ":
-                                                    _taskTodo.priority === "P1",
+                                                    taskTodo.priority === "P1",
                                                 "border-orange-500 ":
-                                                    _taskTodo.priority === "P2",
+                                                    taskTodo.priority === "P2",
                                                 "border-primary ":
-                                                    _taskTodo.priority === "P3",
+                                                    taskTodo.priority === "P3",
                                                 "border-neutral-500 ":
-                                                    _taskTodo.priority === "P4",
+                                                    taskTodo.priority === "P4",
                                             }
                                         )}
                                     >
@@ -280,16 +333,16 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
                                                     "relative rounded-full bg-opacity-30 right-2 bottom-2 h-4 w-4",
                                                     {
                                                         "text-red-600 bg-red-600":
-                                                            _taskTodo.priority ===
+                                                            taskTodo.priority ===
                                                             "P1",
                                                         "text-orange-500 bg-orange-500":
-                                                            _taskTodo.priority ===
+                                                            taskTodo.priority ===
                                                             "P2",
                                                         "text-primary bg-primary":
-                                                            _taskTodo.priority ===
+                                                            taskTodo.priority ===
                                                             "P3",
                                                         "text-neutral-500 bg-neutral-500":
-                                                            _taskTodo.priority ===
+                                                            taskTodo.priority ===
                                                             "P4",
                                                     }
                                                 )}
@@ -302,13 +355,13 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
                                             "p-[8px] cursor-pointer border-[2px] rounded-full w-5 h-5 hover:bg-opacity-30 transition-all duration-200 ease-linear hover:w-6 hover:h-6 ",
                                             {
                                                 "border-red-600 hover:bg-red-600":
-                                                    _taskTodo.priority === "P1",
+                                                    taskTodo.priority === "P1",
                                                 "border-orange-500 hover:bg-orange-500":
-                                                    _taskTodo.priority === "P2",
+                                                    taskTodo.priority === "P2",
                                                 "border-primary hover:bg-primary":
-                                                    _taskTodo.priority === "P3",
+                                                    taskTodo.priority === "P3",
                                                 "border-neutral-500 hover:bg-neutral-500":
-                                                    _taskTodo.priority === "P4",
+                                                    taskTodo.priority === "P4",
                                             }
                                         )}
                                     ></div>

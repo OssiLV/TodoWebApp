@@ -1,4 +1,5 @@
 export interface IDueDate {
-    type: "" | "OPTIONS" | "CALENDAR" | "MODAL";
+    task_id: number;
+    type: "" | "OPTIONS" | "CALENDAR" | "MODAL" | "UPDATE";
     fullDateTime: string;
 }

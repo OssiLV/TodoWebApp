@@ -7,8 +7,8 @@ import { SectionComponent } from "../Components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { IProjectLayoutComponent } from "../Global/InterfaceComponents";
-import { IProject, IProjectUpdate } from "../Global";
-import { useDispatch } from "react-redux";
+import { IProject, IProjectUpdate, RootStates } from "../Global";
+import { useDispatch, useSelector } from "react-redux";
 import { setProjectUpdate } from "../States/ProjectUpdateReducer";
 
 const ProjectLayout: FC<IProjectLayoutComponent> = ({
@@ -17,6 +17,7 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
 }) => {
     const { projectId } = useParams();
     const dispatch = useDispatch();
+
     let projectIdNumber: number | undefined;
 
     if (projectId) {
@@ -35,6 +36,7 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
             setProjectNameValue(projectById.name);
         }
     }, [projectById]);
+
     const [isOpenEditProjectName, setOpenEditprojectName] = useState(false);
     const [projectNameValue, setProjectNameValue] = useState("");
 
@@ -76,6 +78,7 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                 console.error("Cannot Update Project Name: ", error);
             });
     };
+
     return (
         <div
             id="content"

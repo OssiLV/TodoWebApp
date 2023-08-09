@@ -1,5 +1,6 @@
 export interface IDataTransfer {
-    id?: number;
+    project_id?: number;
+    section_id?: number;
     name?: string;
     categories: string;
     tailwindBgHexCode: string;

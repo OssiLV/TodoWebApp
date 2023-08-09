@@ -21,15 +21,20 @@ interface IShowDueDateComponent {
     setDateTime: Function;
 }
 const ShowDueDateComponent: FC<IShowDueDateComponent> = ({ setDateTime }) => {
-    const { fullDateTime } = useSelector(
+    const { type, fullDateTime } = useSelector(
         (state: RootStates) => state.rootDueDateReducer
     );
-    let dateTime = new Date(fullDateTime);
+    let dateTime = new Date(
+        fullDateTime === ""
+            ? "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)"
+            : fullDateTime
+    );
 
     useEffect(() => {
-        if (isValid(dateTime)) {
+        if (isValid(dateTime) && type !== "UPDATE" && fullDateTime !== "") {
             setDateTime(formatDate(dateTime));
         }
+        console.log(dateTime);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fullDateTime]);
 

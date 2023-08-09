@@ -1,22 +1,20 @@
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
-import { CheckIcon, FlagIcon as SFlagIcon } from "@heroicons/react/24/solid";
+import { FlagIcon as SFlagIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { setPriority } from "../../States/PriorityReducer";
-import { IPriority, ITaskTodo, RootStates, isEmptyObject } from "../../Global";
-import { Fragment, useState } from "react";
+import { ITaskTodo, RootStates, isEmptyObject } from "../../Global";
+import { Fragment } from "react";
 
 const ModalPriorityComponent = () => {
     const dispatch = useDispatch();
+
     const handleChangePriority_1 = (name: any) => {
-        dispatch(setPriority({ type: "ADDTASK", name }));
+        dispatch(setPriority({ id: 0, type: "ADDTASK", name }));
     };
     const handleChangePriority_2 = (name: any) => {
-        dispatch(setPriority({ type: "MODALTASK", name }));
+        dispatch(setPriority({ id: 0, type: "MODALTASK", name }));
     };
-    // const [changePriority, setChangePriority] = useState<any>("P4");
-    const _priority = useSelector(
-        (state: RootStates) => state.rootPriorityReducer
-    );
+
     const _modal = useSelector((state: RootStates) => state.rootModalReducer);
     const _taskTodo: ITaskTodo = _modal.data;
     const isEmptyTaskTodoObject: boolean = isEmptyObject(_taskTodo);
@@ -47,11 +45,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 1</span>
-                                    {_priority.name === "P1" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -64,11 +57,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 2</span>
-                                    {_priority.name === "P2" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -81,11 +69,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 3</span>
-                                    {_priority.name === "P3" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -98,11 +81,6 @@ const ModalPriorityComponent = () => {
                                         <OFlagIcon className="" />
                                     </span>
                                     <span>Priority 4</span>
-                                    {_priority.name === "P4" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                         </Fragment>
@@ -118,11 +96,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 1</span>
-                                    {_priority.name === "P1" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -135,11 +108,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 2</span>
-                                    {_priority.name === "P2" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -152,11 +120,6 @@ const ModalPriorityComponent = () => {
                                         <SFlagIcon className="" />
                                     </span>
                                     <span>Priority 3</span>
-                                    {_priority.name === "P3" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                             <div
@@ -169,11 +132,6 @@ const ModalPriorityComponent = () => {
                                         <OFlagIcon className="" />
                                     </span>
                                     <span>Priority 4</span>
-                                    {_priority.name === "P4" && (
-                                        <span className="absolute right-0 mr-4 h-6 w-6 text-primary dark:text-gray-300">
-                                            <CheckIcon className="" />
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                         </Fragment>

@@ -1,8 +1,8 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal, Ripple, initTE } from "tw-elements";
 import { useDispatch, useSelector } from "react-redux";
-import { ITaskTodo, RootStates } from "../../Global";
+import { IDataTransfer, ITaskTodo, RootStates } from "../../Global";
 import { FlagIcon as OFlagIcon } from "@heroicons/react/24/outline";
 import { FlagIcon as SFlagIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
@@ -11,10 +11,14 @@ import axios from "axios";
 import { formatDate } from "../../Global";
 import { setTaskTodo } from "../../States/TaskTodoReducer";
 import { setDueDate } from "../../States/DueDateReducer";
+import { setPriority } from "../../States/PriorityReducer";
+import { setDataTransfer } from "../../States/DataTransferReducer";
+
 const ModalAddTaskComponent = () => {
     useEffect(() => {
         initTE({ Modal, Ripple });
     }, []);
+
     const dispatch = useDispatch();
     const _priority = useSelector(
         (state: RootStates) => state.rootPriorityReducer
@@ -44,22 +48,25 @@ const ModalAddTaskComponent = () => {
     const handleAddTask = () => {
         dispatch(
             setDueDate({
+                task_id: 0,
                 type: "",
                 fullDateTime:
                     "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)",
             })
         );
+
         axios({
             method: "POST",
             url: "/TaskTodo",
             data: {
                 name: taskName,
                 description: description,
-                priority: _priority.name,
+                priority: _priority.name === "" ? "P4" : _priority.name,
                 isCompleted: false,
                 due_Date: dateTime,
                 createdAt: formatDate(new Date()),
-                section_id: _dataTransfer.id,
+                project_id: _dataTransfer.project_id,
+                section_id: _dataTransfer.section_id,
                 sectionName: _dataTransfer.name,
             },
         })
@@ -78,32 +85,69 @@ const ModalAddTaskComponent = () => {
                     })
                 );
             })
+            .then(() => {
+                handleCancel();
+            })
             .catch((error) => {
                 console.error("Cannot Create Task: ", error);
             });
     };
+
     const handleCancel = () => {
         dispatch(
             setDueDate({
+                task_id: 0,
                 type: "",
                 fullDateTime:
                     "Mon Jul 1 0000 00:00:00 GMT+0700 (Indochina Time)",
             })
         );
+        dispatch(setPriority({ id: 0, name: "", type: "" }));
+        dispatch(
+            setDataTransfer({
+                project_id: 0,
+                section_id: 0,
+                name: "",
+                categories: "",
+                tailwindBgHexCode: "",
+            })
+        );
+        setTaskName("");
+        setDescription("");
     };
 
     useEffect(() => {
         if (
             taskName.length < 0 ||
             taskName === "" ||
-            dateTime === "07/01/2000 12:00:00 AM" ||
-            (_dataTransfer.id === 0 && _dataTransfer.name === "")
+            dateTime === "07/01/2000 12:00:00 AM"
         ) {
             setCheckValue(true);
         } else {
             setCheckValue(false);
         }
     }, [taskName, dateTime, _dataTransfer]);
+
+    const priority = useMemo(() => {
+        return {
+            ..._priority,
+        };
+    }, [_priority]);
+
+    switch (_priority.name) {
+        case "":
+            priority.name = "P4";
+            break;
+        case "P1":
+            priority.name = "P1";
+            break;
+        case "P2":
+            priority.name = "P2";
+            break;
+        case "P3":
+            priority.name = "P3";
+            break;
+    }
 
     return (
         <div
@@ -170,7 +214,7 @@ const ModalAddTaskComponent = () => {
                                 data-te-ripple-init
                                 data-te-ripple-color="light"
                             >
-                                {_priority.name === "P4" ? (
+                                {priority.name === "P4" ? (
                                     <div className="flex items-center opacity-50">
                                         <span>
                                             <OFlagIcon
@@ -185,16 +229,16 @@ const ModalAddTaskComponent = () => {
                                             <SFlagIcon
                                                 className={clsx(`w-4 h-4 `, {
                                                     "text-red-600":
-                                                        _priority.name === "P1",
+                                                        priority.name === "P1",
                                                     "text-orange-500":
-                                                        _priority.name === "P2",
+                                                        priority.name === "P2",
                                                     "text-primary":
-                                                        _priority.name === "P3",
+                                                        priority.name === "P3",
                                                 })}
                                             />
                                         </span>
                                         <p className="ml-2 font-thin">
-                                            {_priority.name}
+                                            {priority.name}
                                         </p>
                                     </div>
                                 )}

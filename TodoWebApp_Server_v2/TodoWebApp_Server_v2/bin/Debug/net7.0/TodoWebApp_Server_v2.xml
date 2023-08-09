@@ -84,6 +84,11 @@
             Create a Task Todo by Section-Id
             </summary>
         </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.GetAllTaskTodoInSectionByProjectId(System.Guid)">
+            <summary>
+            Get all Task Todo by User_id
+            </summary>
+        </member>
         <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.GetAllTaskTodoInSectionByProjectId(System.Int64)">
             <summary>
             Get all Task Todo in All Sections By Project-id
@@ -96,7 +101,17 @@
         </member>
         <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.HanldeUndoCompletedTaskTodo(System.Int64)">
             <summary>
-            Update Task not Complete
+            Undo task completed
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.UpdatePriorityById(System.Int64,TodoWebApp_Server_v2.Dtos.TaskTodoDto.TaskTodoPriorityUpdateRequest)">
+            <summary>
+            Update priotity for TaskTodo
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.UpdateDueDateById(System.Int64,TodoWebApp_Server_v2.Dtos.TaskTodoDto.TaskTodoDueDateUpdateRequest)">
+            <summary>
+            Update Due Date for TaskTodo
             </summary>
         </member>
         <member name="T:TodoWebApp_Server_v2.Migrations.InitDB">

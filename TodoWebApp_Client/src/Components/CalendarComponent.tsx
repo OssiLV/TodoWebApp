@@ -34,6 +34,7 @@ export default function CalendarComponent() {
     const handleChangeDay = (fullDateTime: Date) => {
         dispatch(
             setDueDate({
+                task_id: 0,
                 type: "CALENDAR",
                 fullDateTime: endOfDay(fullDateTime).toString(),
             })

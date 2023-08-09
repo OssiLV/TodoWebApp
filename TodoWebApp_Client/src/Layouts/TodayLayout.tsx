@@ -3,40 +3,25 @@ import {
     AdjustmentsHorizontalIcon,
     EllipsisHorizontalIcon,
 } from "@heroicons/react/24/solid";
-import { ITaskTodo } from "../Global";
+import { ITaskTodo, RootStates } from "../Global";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const TodayLayout = () => {
+    const _user = useSelector((state: RootStates) => state.rootUserReducer);
+
     const [tasks, setTasks] = useState<Array<ITaskTodo>>([]);
 
     useEffect(() => {
-        // const _tasks: ITask[] = [
-        //     {
-        //         id: 0,
-        //         name: "name",
-        //         description: "",
-        //         due_Date: "23 Jul",
-        //         isCompleted: false,
-        //         section_id: 0,
-        //     },
-        //     {
-        //         id: 2,
-        //         name: "name2",
-        //         description: "name2",
-        //         due_Date: "23 Jul",
-        //         isCompleted: false,
-        //         section_id: 1,
-        //     },
-        //     {
-        //         id: 3,
-        //         name: "name3",
-        //         description: "name3",
-        //         due_Date: "23 Jul",
-        //         isCompleted: false,
-        //         section_id: 2,
-        //     },
-        // ];
-        // setTasks(_tasks);
-    }, []);
+        axios({
+            method: "GET",
+            url: `TaskTodo/userid/${_user.id}`,
+        })
+            .then((res) => {
+                setTasks(res.data.objectData);
+            })
+            .catch((error) => console.error("Cannot get all Tasks: " + error));
+    }, [_user.id]);
 
     return (
         <div id="content" className="pt-[55px] flex-col flex items-center">

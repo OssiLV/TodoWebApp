@@ -102,7 +102,7 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                         >
                             {listProjects?.map(
                                 (project) =>
-                                    project.isFavorite &&
+                                    project?.isFavorite &&
                                     !project.isDeleted &&
                                     project.id !== 0 && (
                                         <li
@@ -191,7 +191,7 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                         >
                             <li className="relative">
                                 <button
-                                    className="flex h-6 text-primary font-bold cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                                    className="flex h-6 text-primary font-bold cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
                                     data-te-sidenav-link-ref
                                     data-te-toggle="modal"
                                     data-te-target="#addprojectmodal"
@@ -205,10 +205,10 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
 
                             {listProjects?.map(
                                 (project) =>
-                                    !project.isDeleted &&
-                                    project.id !== 0 && (
+                                    !project?.isDeleted &&
+                                    project?.id !== 0 && (
                                         <li
-                                            key={project.id}
+                                            key={project?.id}
                                             onClick={() =>
                                                 handleClickProject(
                                                     project.id,
@@ -223,35 +223,35 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                                     "mr-4 h-3 w-3 rounded-full",
                                                     {
                                                         "bg-[#6d28d9]":
-                                                            project.color
+                                                            project?.color
                                                                 .tailwindBgHexCode ===
                                                             "bg-[#6d28d9]",
                                                         "bg-[#dbeafe]":
-                                                            project.color
+                                                            project?.color
                                                                 .tailwindBgHexCode ===
                                                             "bg-[#dbeafe]",
                                                         "bg-[#60a5fa]":
-                                                            project.color
+                                                            project?.color
                                                                 .tailwindBgHexCode ===
                                                             "bg-[#60a5fa]",
                                                         "bg-[#a3a3a3]":
-                                                            project.color
+                                                            project?.color
                                                                 .tailwindBgHexCode ===
                                                             "bg-[#a3a3a3]",
                                                         "bg-[#0d9488]":
-                                                            project.color
+                                                            project?.color
                                                                 .tailwindBgHexCode ===
                                                             "bg-[#0d9488]",
                                                     }
                                                 )}
                                             ></span>
                                             <div>
-                                                {project.name.length >= 15
-                                                    ? project.name.substring(
+                                                {project?.name.length >= 15
+                                                    ? project?.name.substring(
                                                           0,
                                                           15
                                                       ) + "...."
-                                                    : project.name}
+                                                    : project?.name}
                                             </div>
                                         </li>
                                     )
