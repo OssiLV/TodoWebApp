@@ -9,6 +9,9 @@ import SectionComponent from "./SectionComponent";
 import ModalCategoryComponent from "./Modals/ModalCategoryComponent";
 import ToastMessageComponent from "./ToastMessageComponent";
 import ModalTaskTodoComponent from "./Modals/ModalTaskTodoComponent";
+import ModalAccountComponent from "./Modals/ModalAccountComponent";
+import ThemeCardComponent from "./ThemeCardComponent";
+
 export {
     TaskComponent,
     ModalAddTaskComponent,
@@ -21,4 +24,6 @@ export {
     ModalCategoryComponent,
     ToastMessageComponent,
     ModalTaskTodoComponent,
+    ModalAccountComponent,
+    ThemeCardComponent,
 };

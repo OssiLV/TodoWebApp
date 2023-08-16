@@ -1,5 +1,5 @@
 import { FC, MouseEvent, useState } from "react";
-import { ITaskTodo } from "../Global";
+import { ITaskTodo, RootStates } from "../Global";
 import {
     CalendarIcon,
     EllipsisHorizontalIcon,
@@ -14,15 +14,15 @@ import {
     isSameDay,
     isToday,
     isTomorrow,
+    isWeekend,
     nextDay,
     startOfDay,
     subDays,
 } from "date-fns";
 import clsx from "clsx";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTaskTodoComplete } from "../States/TaskTodoHandleComplete";
-import ModalTaskTodoComponent from "./Modals/ModalTaskTodoComponent";
 import { setOpenModal } from "../States/ModalReducer";
 
 const TaskComponent: FC<ITaskTodo> = ({
@@ -35,6 +35,7 @@ const TaskComponent: FC<ITaskTodo> = ({
     section_id,
 }) => {
     const dispatch = useDispatch();
+    const { theme } = useSelector((state: RootStates) => state.rootUserReducer);
     const fullDateTime = new Date(due_Date);
 
     const openTaskModal = () => {
@@ -52,8 +53,6 @@ const TaskComponent: FC<ITaskTodo> = ({
             })
         );
     };
-
-    const closeTaskModal = () => {};
 
     const hanldeEditTask = (event: MouseEvent<HTMLButtonElement>) => {
         //Cancel parent event
@@ -77,6 +76,7 @@ const TaskComponent: FC<ITaskTodo> = ({
 
     const handleCompletedTaskTodo = (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
+
         axios({
             method: "PUT",
             url: `TaskTodo/complete/${id}`,
@@ -119,13 +119,17 @@ const TaskComponent: FC<ITaskTodo> = ({
                                 )}
                             ></div>
                         </button>
-                        <p className="text-base">
+                        <p
+                            className={clsx("text-base", {
+                                "text-white": theme === "Dark",
+                            })}
+                        >
                             {name.length >= 30
                                 ? name.substring(0, 30) + "..."
                                 : name}
                         </p>
                     </div>
-                    <div className=" flex gap-4 opacity-60">
+                    {/* <div className=" flex gap-4 opacity-60">
                         <span
                             className="w-6 h-6 child Desktop:hidden Desktop:group-hover:block Desktop:hover:bg-neutral-200"
                             onClick={hanldeEditTask}
@@ -144,12 +148,11 @@ const TaskComponent: FC<ITaskTodo> = ({
                         >
                             <EllipsisHorizontalIcon />
                         </span>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="ml-6">
                     <p className="text-sm ml-1 text-gray-400">
-                        {" "}
                         {description.length >= 44
                             ? description.substring(0, 44) + "..."
                             : description}
@@ -169,10 +172,7 @@ const TaskComponent: FC<ITaskTodo> = ({
                                 </span>
                                 <p className="ml-2 ">Tomorrow</p>
                             </div>
-                        ) : isSameDay(
-                              subDays(nextDay(startOfDay(new Date()), 1), 1),
-                              fullDateTime
-                          ) ? (
+                        ) : isWeekend(fullDateTime) ? (
                             <div className="flex items-center text-primary ">
                                 <span>
                                     <MusicalNoteIcon className="w-4 h-4 " />
@@ -198,7 +198,14 @@ const TaskComponent: FC<ITaskTodo> = ({
                                 </p>
                             </div>
                         ) : (
-                            <div className="flex items-center opacity-50 ">
+                            <div
+                                className={clsx(
+                                    "flex items-center opacity-50 ",
+                                    {
+                                        "text-white": theme === "Dark",
+                                    }
+                                )}
+                            >
                                 <span>
                                     <CalendarIcon className="w-4 h-4 " />
                                 </span>

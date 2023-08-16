@@ -5,12 +5,13 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
 {
     public interface ITaskTodoService
     {
-        Task<ResponseObjectDto> CreateTaskTodo(TaskTodoCreateRequestDto taskTodoCreateRequestDto);
-        Task<ResponseObjectDto> GetAllTaskTodoInSectionByProjectId( long id );
-        Task<ResponseObjectDto> GetAllTaskTodoByUserId( Guid id );
-        Task<ResponseObjectDto> HanldeCompletedTaskTodo( long id );
-        Task<ResponseObjectDto> HanldeUndoCompletedTaskTodo( long id );
-        Task<ResponseObjectDto> UpdatePriorityById( long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest );
-        Task<ResponseObjectDto> UpdateDueDateById( long id, TaskTodoDueDateUpdateRequest  taskTodoDueDateUpdateRequest);
+        Task<ResponseObjectDto> CreateTaskTodoAsync(TaskTodoCreateRequestDto taskTodoCreateRequestDto);
+        Task<ResponseObjectDto> GetAllTaskTodoInSectionByProjectIdAsync( long id );
+        Task<ResponseObjectDto> GetAllTaskTodoByUserIdAsync( Guid id );
+        Task<ResponseObjectDto> HanldeCompletedTaskTodoAsync( long id );
+        Task<ResponseObjectDto> HanldeUndoCompletedTaskTodoAsync( long id );
+        Task<ResponseObjectDto> RescheduleForManyTasksAsync( TaskTodoRescheduleRequestDto taskTodoRescheduleRequestDto );
+        Task<ResponseObjectDto> UpdatePriorityByIdAsync( long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest );
+        Task<ResponseObjectDto> UpdateDueDateByIdAsync( long id, TaskTodoDueDateUpdateRequest  taskTodoDueDateUpdateRequest);
     }
 }

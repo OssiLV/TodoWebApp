@@ -1,8 +1,4 @@
-using Microsoft.Extensions.Configuration;
-using server_todo.Data.Context;
-using TodoWebApp_Server_v2;
 using TodoWebApp_Server_v2.Configurations;
-using TodoWebApp_Server_v2.Services.ColorService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,9 +31,12 @@ if(app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAll");
+//app.UseCors("MySite");
+app.UseCors("Dev");
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

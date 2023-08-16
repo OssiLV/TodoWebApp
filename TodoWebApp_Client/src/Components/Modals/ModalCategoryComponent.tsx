@@ -21,14 +21,14 @@ const ModalCategoryComponent: FC<IModalCategoryComponent> = ({
     useEffect(() => {
         const mergedArray = listProjects?.map((project) => {
             const sections = listSections?.filter(
-                (section) => section.project_id === project.id
+                (section) => section?.project_id === project?.id
             );
             const fullDataProject: IProject_FullData = {
-                id: project.id,
-                name: project.name,
-                isFavorite: project.isFavorite,
-                isDeleted: project.isDeleted,
-                color: project.color,
+                id: project?.id,
+                name: project?.name,
+                isFavorite: project?.isFavorite,
+                isDeleted: project?.isDeleted,
+                color: project?.color,
                 sections: sections,
             };
 

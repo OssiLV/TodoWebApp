@@ -7,9 +7,9 @@ namespace TodoWebApp_Server_v2.Services.ColorService
     {
 
         ResponseObjectDto GetAllColors(  );
-        Task<ResponseObjectDto> GetColorById( long id );
-        Task<ResponseObjectDto> CreateColor( ColorCreateResquestDto colorCreateResquestDto );
-        Task<ResponseObjectDto> UpdateColorById( long id, ColorUpdateRequestDto colorUpdateRequestDto );
-        Task<ResponseObjectDto> DeleteColorById( long id);
+        Task<ResponseObjectDto> GetColorByIdAsync( long id );
+        Task<ResponseObjectDto> CreateColorAsync( ColorCreateResquestDto colorCreateResquestDto );
+        Task<ResponseObjectDto> UpdateColorByIdAsync( long id, ColorUpdateRequestDto colorUpdateRequestDto );
+        Task<ResponseObjectDto> DeleteColorByIdAsync( long id);
     }
 }

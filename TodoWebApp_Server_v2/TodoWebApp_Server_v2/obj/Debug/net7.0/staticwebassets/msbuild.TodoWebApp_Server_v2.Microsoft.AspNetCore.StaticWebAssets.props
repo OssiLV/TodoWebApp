@@ -1,0 +1,36 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\UserAvatars\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>TodoWebApp_Server_v2</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/TodoWebApp_Server_v2</BasePath>
+      <RelativePath>UserAvatars/avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\UserAvatars\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\UserAvatars\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>TodoWebApp_Server_v2</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/TodoWebApp_Server_v2</BasePath>
+      <RelativePath>UserAvatars/avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\UserAvatars\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+  </ItemGroup>
+</Project>

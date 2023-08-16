@@ -1,5 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import {
+    ModalCategoryComponent,
+    ModalTaskTodoComponent,
     NavbarComponent,
     SidenavComponent,
     ToastMessageComponent,
@@ -10,6 +12,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 import { RootStates, IProject, IProject_FullData, ISection } from "../Global";
+import clsx from "clsx";
 const TodayPage = () => {
     const _user = useSelector((state: RootStates) => state.rootUserReducer);
     const _newProject = useSelector(
@@ -18,6 +21,7 @@ const TodayPage = () => {
     const _newSection = useSelector(
         (state: RootStates) => state.rootSectionReducer
     );
+    const _modal = useSelector((state: RootStates) => state.rootModalReducer);
     const _projectSoftDelete = useSelector(
         (state: RootStates) => state.rootProjectSoftDeleteReducer
     );
@@ -44,7 +48,7 @@ const TodayPage = () => {
     }, [_user.id]);
 
     useEffect(() => {
-        setListProjects((prevState) => {
+        setListProjects(() => {
             const projects: IProject[] = fullDataProject?.map(
                 (project: IProject) => ({
                     id: project.id,
@@ -64,10 +68,10 @@ const TodayPage = () => {
                 []
             );
 
-            return prevState.concat(uniqueArray);
+            return uniqueArray;
         });
 
-        setListSections((prevState) => {
+        setListSections(() => {
             const sections: ISection[] = fullDataProject?.flatMap(
                 (project: IProject_FullData) =>
                     project.sections.map((section: ISection) => ({
@@ -86,7 +90,7 @@ const TodayPage = () => {
                 []
             );
 
-            return prevState.concat(uniqueArray);
+            return uniqueArray;
         });
     }, [fullDataProject]);
 
@@ -106,7 +110,7 @@ const TodayPage = () => {
         if (_newSection !== null) {
             setListSections((prevState) => {
                 if (prevState !== null) {
-                    return prevState.concat(_newSection);
+                    return prevState?.concat(_newSection);
                 } else {
                     return [_newSection];
                 }
@@ -131,19 +135,31 @@ const TodayPage = () => {
     }, [_projectSoftDelete]);
 
     return (
-        <Fragment>
+        <div
+            className={clsx("h-screen", {
+                "bg-neutral-800": _user.theme === "Dark",
+            })}
+        >
             <NavbarComponent />
             <SidenavComponent listProjects={listProjects} />
             <TodayLayout />
-            {_projectSoftDelete.isDeleted ? (
+            {_projectSoftDelete.isDeleted && (
                 <ToastMessageComponent
                     title="Warning"
                     content="Project is deleted"
                 />
-            ) : (
-                ""
             )}
-        </Fragment>
+            {_modal.isOpen && (
+                <ModalTaskTodoComponent
+                    listProjects={listProjects}
+                    listSections={listSections}
+                />
+            )}
+            <ModalCategoryComponent
+                listProjects={listProjects}
+                listSections={listSections}
+            />
+        </div>
     );
 };
 

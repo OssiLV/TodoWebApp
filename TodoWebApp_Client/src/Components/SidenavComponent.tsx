@@ -9,14 +9,18 @@ import { Sidenav, initTE } from "tw-elements";
 import { useMediaQuery } from "react-responsive";
 import ModalAddProjectComponent from "./Modals/ModalAddProjectComponent";
 
-import { ISidenavComponent } from "../Global";
+import { ISidenavComponent, RootStates } from "../Global";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
     useEffect(() => {
         initTE({ Sidenav });
     }, []);
+    const { theme, language } = useSelector(
+        (state: RootStates) => state.rootUserReducer
+    );
 
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: "(max-width: 420px)" });
@@ -30,56 +34,113 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
             <ModalAddProjectComponent />
             <nav
                 id="sidebar"
-                className="fixed mt-[3.1rem] left-0 top-0 z-10 h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800 "
+                className={clsx(
+                    "fixed mt-[3rem] left-0 top-0 z-10 h-screen w-60 -translate-x-full overflow-hidden  shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800 ",
+                    {
+                        "bg-white": theme === "Primary",
+                        "bg-gray-800": theme === "Dark",
+                        "bg-neutral-100": theme === "Neutral",
+                    }
+                )}
                 data-te-sidenav-init
                 data-te-sidenav-hidden="false"
                 data-te-sidenav-mode={isMobile ? "over" : "side"}
                 data-te-sidenav-content="#content"
             >
                 <ul
-                    className="relative m-0 list-none px-[0.2rem] select-none"
+                    className="relative m-0 list-none px-[0.2rem] select-none "
                     data-te-sidenav-menu-ref
                 >
                     {/* TODAY */}
                     <li className="relative">
                         <Link
                             to="/app/today"
-                            className="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                            className={clsx(
+                                "flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem]  transition duration-300 ease-linear  ",
+                                {
+                                    "hover:bg-gray-900 ": theme === "Dark",
+                                    "hover:bg-slate-300": theme === "Neutral",
+                                    "hover:bg-primary-100": theme === "Primary",
+                                }
+                            )}
                             data-te-sidenav-link-ref
                         >
-                            <span className="mr-4 h-4 w-4 text-lime-500 dark:text-gray-300">
+                            <span className="mr-4 h-4 w-4 text-lime-500">
                                 <CalendarIcon className="" />
                             </span>
-                            <span>Today</span>
+                            <span
+                                className={clsx("tracking-wider", {
+                                    "text-white": theme === "Dark",
+                                    "text-gray-600":
+                                        theme === "Primary" || "Neutral",
+                                })}
+                            >
+                                {language === "en" ? "Today" : "Hôm nay"}
+                            </span>
                         </Link>
                     </li>
 
                     {/* UPCOMMING */}
-                    <li className="relative">
+                    {/* <li className="relative">
                         <Link
                             to="/app/upcomming"
-                            className="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                            className={clsx(
+                                "flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem]  transition duration-300 ease-linear  hover:text-inherit hover:outline-none ",
+                                {
+                                    "hover:bg-gray-900 ": theme === "Dark",
+                                    "hover:bg-slate-300": theme === "Neutral",
+                                    "hover:bg-primary-100": theme === "Primary",
+                                }
+                            )}
                             data-te-sidenav-link-ref
                         >
                             <span className="mr-4 h-4 w-4 text-purple-500 dark:text-gray-300">
                                 <CalendarDaysIcon className="" />
                             </span>
-                            <span>Upcomming</span>
+                            <span
+                                className={clsx("tracking-wider",{
+                                    "text-white": theme === "Dark",
+                                })}
+                            >
+                            {language === "en" ? "Calendar" : "Lịch"}
+                                
+                            </span>
                         </Link>
-                    </li>
+                    </li> */}
 
                     {/* FAVORITES */}
                     <li className="relative">
                         <div
-                            className="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                            className={clsx(
+                                "flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem]  transition duration-300 ease-linear  hover:text-inherit hover:outline-none ",
+                                {
+                                    "hover:bg-gray-900 ": theme === "Dark",
+                                    "hover:bg-slate-300": theme === "Neutral",
+                                    "hover:bg-primary-100": theme === "Primary",
+                                }
+                            )}
                             data-te-sidenav-link-ref
                         >
                             <span className="mr-4 [&>svg]:h-4 [&>svg]:w-4 text-red-600 dark:[&>svg]:text-gray-300">
                                 <HeartIcon className="" />
                             </span>
-                            <span>Favorites</span>
                             <span
-                                className="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear motion-reduce:transition-none text-primary dark:[&>svg]:text-gray-300"
+                                className={clsx("tracking-wider", {
+                                    "text-white": theme === "Dark",
+                                })}
+                            >
+                                {language === "en" ? "Favorites" : "Yêu thích"}
+                            </span>
+
+                            <span
+                                className={clsx(
+                                    "absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linea",
+                                    {
+                                        "text-white": theme === "Dark",
+                                        "text-primary": theme === "Primary",
+                                        "text-neutral-700": theme === "Neutral",
+                                    }
+                                )}
                                 data-te-sidenav-rotate-icon-ref
                             >
                                 <svg
@@ -106,14 +167,24 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                     !project.isDeleted &&
                                     project.id !== 0 && (
                                         <li
-                                            key={project.id}
+                                            key={project?.id}
                                             onClick={() =>
                                                 handleClickProject(
                                                     project.id,
                                                     project.name
                                                 )
                                             }
-                                            className="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[2.8rem] pr-6 text-[0.78rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                                            className={clsx(
+                                                "flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[2.8rem] pr-6 text-[0.78rem]  outline-none transition duration-300 ease-linear",
+                                                {
+                                                    "hover:bg-gray-900 ":
+                                                        theme === "Dark",
+                                                    "hover:bg-slate-300":
+                                                        theme === "Neutral",
+                                                    "hover:bg-primary-100":
+                                                        theme === "Primary",
+                                                }
+                                            )}
                                             data-te-sidenav-link-ref
                                         >
                                             <span
@@ -143,7 +214,12 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                                     }
                                                 )}
                                             ></span>
-                                            <div>
+                                            <div
+                                                className={clsx({
+                                                    "text-white":
+                                                        theme === "Dark",
+                                                })}
+                                            >
                                                 {project.name.length >= 15
                                                     ? project.name.substring(
                                                           0,
@@ -160,15 +236,36 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                     {/* PROJECTS */}
                     <li className="relative">
                         <div
-                            className="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                            className={clsx(
+                                "flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem]  transition duration-300 ease-linear ",
+                                {
+                                    "hover:bg-gray-900 ": theme === "Dark",
+                                    "hover:bg-slate-300": theme === "Neutral",
+                                    "hover:bg-primary-100": theme === "Primary",
+                                }
+                            )}
                             data-te-sidenav-link-ref
                         >
-                            <span className="mr-4 [&>svg]:h-4 [&>svg]:w-4 text-primary dark:[&>svg]:text-gray-300">
+                            <span className="mr-4 [&>svg]:h-4 [&>svg]:w-4 text-primary">
                                 <BriefcaseIcon />
                             </span>
-                            <span>Projects</span>
                             <span
-                                className="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear motion-reduce:transition-none text-primary dark:[&>svg]:text-gray-300"
+                                className={clsx("tracking-wider", {
+                                    "text-white": theme === "Dark",
+                                })}
+                            >
+                                {language === "en" ? "Projects" : "Dự án"}
+                            </span>
+
+                            <span
+                                className={clsx(
+                                    "absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linea",
+                                    {
+                                        "text-white": theme === "Dark",
+                                        "text-primary": theme === "Primary",
+                                        "text-neutral-700": theme === "Neutral",
+                                    }
+                                )}
                                 data-te-sidenav-rotate-icon-ref
                             >
                                 <svg
@@ -191,7 +288,17 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                         >
                             <li className="relative">
                                 <button
-                                    className="flex h-6 text-primary font-bold cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                                    className={clsx(
+                                        "flex h-6 font-bold cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] outline-none transition duration-300 ease-linear",
+                                        {
+                                            "hover:bg-gray-900 text-white":
+                                                theme === "Dark",
+                                            "hover:bg-slate-300 text-primary ":
+                                                theme === "Neutral",
+                                            "hover:bg-primary-100 text-primary ":
+                                                theme === "Primary",
+                                        }
+                                    )}
                                     data-te-sidenav-link-ref
                                     data-te-toggle="modal"
                                     data-te-target="#addprojectmodal"
@@ -199,7 +306,9 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                     data-te-ripple-color="light"
                                     type="button"
                                 >
-                                    - - - - - Add A Project - - - - -
+                                    {language === "en"
+                                        ? "- - - - - Add A Project - - - - -"
+                                        : "- - - - - Thêm một dự án - - - - -"}
                                 </button>
                             </li>
 
@@ -215,7 +324,17 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                                     project.name
                                                 )
                                             }
-                                            className="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[2.8rem] pr-6 text-[0.78rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit"
+                                            className={clsx(
+                                                "flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[2.8rem] pr-6 text-[0.78rem]  outline-none transition duration-300 ease-linear ",
+                                                {
+                                                    "hover:bg-gray-900 ":
+                                                        theme === "Dark",
+                                                    "hover:bg-slate-300  ":
+                                                        theme === "Neutral",
+                                                    "hover:bg-primary-100 ":
+                                                        theme === "Primary",
+                                                }
+                                            )}
                                             data-te-sidenav-link-ref
                                         >
                                             <span
@@ -245,7 +364,12 @@ const SidenavComponent: FC<ISidenavComponent> = ({ listProjects }) => {
                                                     }
                                                 )}
                                             ></span>
-                                            <div>
+                                            <div
+                                                className={clsx({
+                                                    "text-white":
+                                                        theme === "Dark",
+                                                })}
+                                            >
                                                 {project?.name.length >= 15
                                                     ? project?.name.substring(
                                                           0,

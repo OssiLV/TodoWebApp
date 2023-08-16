@@ -6,6 +6,9 @@ const initialUser: IUser = {
     userName: "",
     email: "",
     emailConfirmed: false,
+    language: "",
+    theme: "",
+    image: "",
 };
 
 export const UserReducer = createSlice({
@@ -17,18 +20,44 @@ export const UserReducer = createSlice({
             state.userName = action.payload.userName;
             state.email = action.payload.email;
             state.emailConfirmed = action.payload.emailConfirmed;
+            state.theme = action.payload.theme;
+            state.language = action.payload.language;
+            state.image = action.payload.image;
         },
         setLogout: (state: IUser) => {
             state.id = "";
             state.userName = "";
             state.email = "";
             state.emailConfirmed = false;
+            state.theme = "";
+            state.language = "";
+            state.image = "";
         },
-        setEmailConfirm: (state: IUser, action) => {
-            state.emailConfirmed = action.payload.emailConfirmed;
+        setEmail: (state: IUser, action) => {
+            state.email = action.payload.email;
+        },
+        setTheme: (state: IUser, action) => {
+            state.theme = action.payload.theme;
+        },
+        setLanguage: (state: IUser, action) => {
+            state.language = action.payload.language;
+        },
+        setAvatar: (state: IUser, action) => {
+            state.image = action.payload.image;
+        },
+        setUserName: (state: IUser, action) => {
+            state.userName = action.payload.userName;
         },
     },
 });
 
-export const { setLogin, setLogout, setEmailConfirm } = UserReducer.actions;
+export const {
+    setLogin,
+    setLogout,
+    setEmail,
+    setTheme,
+    setLanguage,
+    setAvatar,
+    setUserName,
+} = UserReducer.actions;
 export default UserReducer.reducer;

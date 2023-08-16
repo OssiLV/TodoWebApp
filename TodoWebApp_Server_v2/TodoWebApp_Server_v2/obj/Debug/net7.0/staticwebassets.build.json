@@ -1,11 +1,54 @@
 {
   "Version": 1,
-  "Hash": "erIq7TM0eR58eg5jEpbI8o2FYaRuoFeXzHlYPmEi5V8=",
+  "Hash": "wAf9Ag4LNif9L6yx/AV1LrrjpS6j6aH3WNH7Uq4XDyI=",
   "Source": "TodoWebApp_Server_v2",
   "BasePath": "_content/TodoWebApp_Server_v2",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "TodoWebApp_Server_v2\\wwwroot",
+      "Source": "TodoWebApp_Server_v2",
+      "ContentRoot": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\",
+      "BasePath": "_content/TodoWebApp_Server_v2",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\UserAvatars\\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg",
+      "SourceId": "TodoWebApp_Server_v2",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\",
+      "BasePath": "_content/TodoWebApp_Server_v2",
+      "RelativePath": "UserAvatars/avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UserAvatars\\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg"
+    },
+    {
+      "Identity": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\UserAvatars\\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg",
+      "SourceId": "TodoWebApp_Server_v2",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\",
+      "BasePath": "_content/TodoWebApp_Server_v2",
+      "RelativePath": "UserAvatars/avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UserAvatars\\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg"
+    }
+  ]
 }

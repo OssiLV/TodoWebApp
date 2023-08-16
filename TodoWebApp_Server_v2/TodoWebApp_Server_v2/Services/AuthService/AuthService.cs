@@ -1,6 +1,7 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.SqlServer.Server;
 using server_todo.Data.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -45,7 +46,7 @@ namespace TodoWebApp_Server_v2.Services.AuthService
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
             return accessToken;
         }
-        public static string RandomString( int length )
+        public string RandomString( int length )
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var random = new Random();
@@ -53,7 +54,7 @@ namespace TodoWebApp_Server_v2.Services.AuthService
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public async Task<ResponseObjectDto> Authenticate( LoginRequestDto loginRequestDto )
+        public async Task<ResponseObjectDto> AuthenticateAsync( LoginRequestDto loginRequestDto )
         {
             var user = await _userManager.FindByEmailAsync(loginRequestDto.Email);
             if(user == null) return new ResponseObjectDto("Email is not exist!!");
@@ -85,12 +86,17 @@ namespace TodoWebApp_Server_v2.Services.AuthService
             }
 
             var accessToken = GenerateAccessToken(claims);
+
+
+            
             var userResponse = _mapper.Map<UserResponseDto>(user);
+
+
             
             return new ResponseObjectDto("Log In Successfully", new { accessToken, userResponse }, true);
         }
 
-        public async Task<ResponseObjectDto> SignUp( RegisterRequestDto registerRequestDto )
+        public async Task<ResponseObjectDto> SignUpAsync( RegisterRequestDto registerRequestDto )
         {
             var user = await _userManager.FindByEmailAsync(registerRequestDto.Email);
 
@@ -100,17 +106,22 @@ namespace TodoWebApp_Server_v2.Services.AuthService
             }
 
 
+
             user = new User()
             {
                 UserName = RandomString(6),
                 Email = registerRequestDto.Email,
                 EmailConfirmed = false,
+                Theme = "Primary",
+                Language = "en",
+                Image = Path.Combine("UserAvatars", "avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg")
             };
 
             var result = await _userManager.CreateAsync(user, registerRequestDto.Password);
 
             if(result.Succeeded)
             {
+                
                 return new ResponseObjectDto("Register Successfully", true);
             }
 

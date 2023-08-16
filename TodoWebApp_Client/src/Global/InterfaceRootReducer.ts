@@ -8,7 +8,11 @@ import {
     IProjectUpdate,
 } from "./InterfaceProject";
 import { ISection } from "./InterfaceSections";
-import { ITaskTodo, ITaskTodoHandleComplete } from "./InterfaceTaskTodo";
+import {
+    ITaskReschedule,
+    ITaskTodo,
+    ITaskTodoHandleComplete,
+} from "./InterfaceTaskTodo";
 import { IUser } from "./InterfaceUser";
 
 export interface RootStates {
@@ -16,6 +20,7 @@ export interface RootStates {
     rootProjectReducer: IProject;
     rootPriorityReducer: IPriority;
     rootDueDateReducer: IDueDate;
+    // rootRescheduleDueDateReducer: IRescheduleDueDate;
     rootSectionReducer: ISection;
     rootProjectSoftDeleteReducer: IProjectSoftDelete;
     rootDataTransferReducer: IDataTransfer;
@@ -23,4 +28,5 @@ export interface RootStates {
     rootTaskTodoHandleCompleteReducer: ITaskTodoHandleComplete;
     rootProjectUpdateReducer: IProjectUpdate;
     rootModalReducer: IModal;
+    rootTasksRescheduleReducer: ITaskReschedule;
 }

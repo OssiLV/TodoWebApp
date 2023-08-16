@@ -6,32 +6,66 @@ import {
     MusicalNoteIcon,
 } from "@heroicons/react/24/outline";
 import {
-    startOfToday,
-    startOfTomorrow,
     startOfWeek,
     addWeeks,
     getDay,
     addDays,
     endOfDay,
+    startOfDay,
 } from "date-fns";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDueDate } from "../../States/DueDateReducer";
+import { RootStates, formatDate } from "../../Global";
+import clsx from "clsx";
+import axios from "axios";
+import {
+    setClearQueueIdTask,
+    setQueueIdTask,
+} from "../../States/TasksRescheduleReducer";
 
 const ModalDueDateComponent = () => {
     const dispatch = useDispatch();
-    let today = startOfToday();
-    let tomorrow = startOfTomorrow();
+
+    const { queueIdTasks } = useSelector(
+        (state: RootStates) => state.rootTasksRescheduleReducer
+    );
+    const { language, theme } = useSelector(
+        (state: RootStates) => state.rootUserReducer
+    );
+
+    let today = startOfDay(new Date());
+    let tomorrow = startOfDay(addDays(new Date(), 1));
     let firstDayOfNextWeek = startOfWeek(addWeeks(new Date(), 1), {
         weekStartsOn: 1,
     });
-    let lastDayOfWeek = new Date(
-        addDays(
-            today.setDate(today.getDate() + ((6 - getDay(new Date())) % 7)),
-            1
-        )
+    let lastDayOfWeek = startOfDay(
+        addDays(today, ((6 - getDay(today) + 7) % 7) + 1)
     );
 
     const hanldeChangeOptionDueDate = (fullDateTime: Date) => {
+        if (queueIdTasks.length !== 0) {
+            axios({
+                method: "PUT",
+                url: "TaskTodo/reschedule",
+                data: {
+                    tasks_id: queueIdTasks,
+                    dueDate: formatDate(fullDateTime),
+                },
+            })
+                .then((res) => {
+                    dispatch(
+                        setQueueIdTask({
+                            queueIdTasks,
+                            isSuccess: true,
+                            dueDate: formatDate(fullDateTime),
+                        })
+                    );
+                })
+                .catch((error) => {
+                    console.error("Cannot reschedule: " + error);
+                });
+        }
+
         dispatch(
             setDueDate({
                 task_id: 0,
@@ -54,7 +88,16 @@ const ModalDueDateComponent = () => {
                 data-te-modal-dialog-ref
                 className="pointer-events-none relative flex min-h-[calc(100%-1rem)] w-auto translate-y-[-50px] items-center opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:min-h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]"
             >
-                <div className="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+                <div
+                    className={clsx(
+                        "pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600",
+                        {
+                            "bg-white":
+                                theme === "Primary" || theme === "Neutral",
+                            "bg-gray-800": theme === "Dark",
+                        }
+                    )}
+                >
                     <div className="flex flex-col flex-shrink-0  rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
                         {/* TODAY */}
                         <div
@@ -64,15 +107,38 @@ const ModalDueDateComponent = () => {
                             }
                             data-te-modal-dismiss
                         >
-                            <div className="flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] text-gray-600 outline-none transition duration-100 ease-linear hover:bg-slate-300 hover:text-inherit hover:outline-none focus:bg-slate-300 focus:text-inherit focus:outline-none active:bg-slate-300 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10">
-                                <span className="mr-4 h-6 w-6 text-lime-500 dark:text-gray-300">
+                            <div
+                                className={clsx(
+                                    "flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] outline-none transition duration-100 ease-linear  ",
+                                    {
+                                        "text-gray-600 hover:bg-slate-300":
+                                            theme === "Primary" ||
+                                            theme === "Neutral",
+                                        "text-white hover:bg-gray-500":
+                                            theme === "Dark",
+                                    }
+                                )}
+                            >
+                                <span className="mr-4 h-6 w-6 text-lime-500 ">
                                     <CalendarIcon className="" />
                                 </span>
-                                <span className="font-bold">Today</span>
+                                <span className="font-bold">
+                                    {language === "en" ? "Today" : "Hôm nay"}
+                                </span>
                                 <span className="absolute right-0 mr-4 opacity-60">
-                                    {new Date().toLocaleDateString("en-US", {
-                                        weekday: "short",
-                                    })}
+                                    {language === "en"
+                                        ? new Date().toLocaleDateString(
+                                              "en-US",
+                                              {
+                                                  weekday: "short",
+                                              }
+                                          )
+                                        : new Date().toLocaleDateString(
+                                              "vi-VN",
+                                              {
+                                                  weekday: "short",
+                                              }
+                                          )}
                                 </span>
                             </div>
                         </div>
@@ -83,16 +149,36 @@ const ModalDueDateComponent = () => {
                             onClick={() => hanldeChangeOptionDueDate(tomorrow)}
                             data-te-modal-dismiss
                         >
-                            <div className="flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] text-gray-600 outline-none transition duration-100 ease-linear hover:bg-slate-300 hover:text-inherit hover:outline-none focus:bg-slate-300 focus:text-inherit focus:outline-none active:bg-slate-300 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10">
-                                <span className="mr-4 h-6 w-6 text-yellow-500 dark:text-gray-300">
+                            <div
+                                className={clsx(
+                                    "flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] outline-none transition duration-100 ease-linear  ",
+                                    {
+                                        "text-gray-600 hover:bg-slate-300":
+                                            theme === "Primary" ||
+                                            theme === "Neutral",
+                                        "text-white hover:bg-gray-500":
+                                            theme === "Dark",
+                                    }
+                                )}
+                            >
+                                <span className="mr-4 h-6 w-6 text-yellow-500 ">
                                     <SunIcon className="" />
                                 </span>
-                                <span className="font-bold">Tomorrow</span>
+                                <span className="font-bold">
+                                    {language === "en"
+                                        ? "Tomorrow"
+                                        : "Ngày mai"}
+                                </span>
                                 <span className="absolute right-0 mr-4 opacity-60">
-                                    {tomorrow.toLocaleDateString("en-US", {
-                                        weekday: "short",
-                                        day: "2-digit",
-                                    })}
+                                    {language === "en"
+                                        ? tomorrow.toLocaleDateString("en-US", {
+                                              weekday: "short",
+                                              day: "2-digit",
+                                          })
+                                        : tomorrow.toLocaleDateString("vi-VN", {
+                                              weekday: "short",
+                                              day: "2-digit",
+                                          })}
                                 </span>
                             </div>
                         </div>
@@ -105,16 +191,43 @@ const ModalDueDateComponent = () => {
                             }
                             data-te-modal-dismiss
                         >
-                            <div className="flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] text-gray-600 outline-none transition duration-100 ease-linear hover:bg-slate-300 hover:text-inherit hover:outline-none focus:bg-slate-300 focus:text-inherit focus:outline-none active:bg-slate-300 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10">
-                                <span className="mr-4 h-6 w-6 text-primary dark:text-gray-300">
+                            <div
+                                className={clsx(
+                                    "flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] outline-none transition duration-100 ease-linear  ",
+                                    {
+                                        "text-gray-600 hover:bg-slate-300":
+                                            theme === "Primary" ||
+                                            theme === "Neutral",
+                                        "text-white hover:bg-gray-500":
+                                            theme === "Dark",
+                                    }
+                                )}
+                            >
+                                <span className="mr-4 h-6 w-6 text-primary ">
                                     <MusicalNoteIcon className="" />
                                 </span>
-                                <span className="font-bold">This Weekend</span>
+                                <span className="font-bold">
+                                    {language === "en"
+                                        ? "This Weekend"
+                                        : "Cuối tuần"}
+                                </span>
                                 <span className="absolute right-0 mr-4 opacity-60">
-                                    {lastDayOfWeek.toLocaleDateString("en-US", {
-                                        weekday: "short",
-                                        day: "2-digit",
-                                    })}
+                                    {language === "en"
+                                        ? lastDayOfWeek.toLocaleDateString(
+                                              "en-US",
+                                              {
+                                                  weekday: "short",
+                                                  day: "2-digit",
+                                              }
+                                          )
+                                        : lastDayOfWeek.toLocaleDateString(
+                                              "vi-VN",
+                                              {
+                                                  weekday: "short",
+                                                  day: "2-digit",
+                                              }
+                                          )}
+                                    {}
                                 </span>
                             </div>
                         </div>
@@ -127,20 +240,45 @@ const ModalDueDateComponent = () => {
                             }
                             data-te-modal-dismiss
                         >
-                            <div className="flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] text-gray-600 outline-none transition duration-100 ease-linear hover:bg-slate-300 hover:text-inherit hover:outline-none focus:bg-slate-300 focus:text-inherit focus:outline-none active:bg-slate-300 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10">
-                                <span className="mr-4 h-6 w-6 text-purple-500 dark:text-gray-300">
+                            <div
+                                className={clsx(
+                                    "flex h-10 w-full cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.875rem] outline-none transition duration-100 ease-linear  ",
+                                    {
+                                        "text-gray-600 hover:bg-slate-300":
+                                            theme === "Primary" ||
+                                            theme === "Neutral",
+                                        "text-white hover:bg-gray-500":
+                                            theme === "Dark",
+                                    }
+                                )}
+                            >
+                                <span className="mr-4 h-6 w-6 text-purple-500 ">
                                     <ForwardIcon className="" />
                                 </span>
-                                <span className="font-bold">Next week</span>
+                                <span className="font-bold">
+                                    {" "}
+                                    {language === "en"
+                                        ? "Next week"
+                                        : "Tuần sau"}
+                                </span>
                                 <span className="absolute right-0 mr-4 opacity-60">
-                                    {firstDayOfNextWeek.toLocaleDateString(
-                                        "en-US",
-                                        {
-                                            weekday: "short",
-                                            month: "short",
-                                            day: "2-digit",
-                                        }
-                                    )}
+                                    {language === "en"
+                                        ? firstDayOfNextWeek.toLocaleDateString(
+                                              "en-US",
+                                              {
+                                                  weekday: "short",
+                                                  month: "short",
+                                                  day: "2-digit",
+                                              }
+                                          )
+                                        : firstDayOfNextWeek.toLocaleDateString(
+                                              "vi-VN",
+                                              {
+                                                  weekday: "short",
+                                                  month: "short",
+                                                  day: "2-digit",
+                                              }
+                                          )}
                                 </span>
                             </div>
                         </div>

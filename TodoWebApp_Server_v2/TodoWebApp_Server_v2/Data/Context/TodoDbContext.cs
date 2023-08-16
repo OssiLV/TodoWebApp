@@ -28,8 +28,9 @@ namespace server_todo.Data.Context
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
-        }
 
+           
+        }
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<Color> Colors { get; set; }

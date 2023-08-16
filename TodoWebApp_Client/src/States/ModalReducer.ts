@@ -14,9 +14,9 @@ export const ModalReducer = createSlice({
             state.data = action.payload.data;
             state.isOpen = action.payload.isOpen;
         },
-        setCloseModal: (state: IModal, action: PayloadAction<IModal>) => {
-            state.data = action.payload.data;
-            state.isOpen = action.payload.isOpen;
+        setCloseModal: (state: IModal) => {
+            state.data = {};
+            state.isOpen = false;
         },
     },
 });

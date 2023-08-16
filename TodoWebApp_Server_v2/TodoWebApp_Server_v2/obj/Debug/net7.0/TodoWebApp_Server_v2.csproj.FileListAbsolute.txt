@@ -85,3 +85,6 @@ D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\obj\Debug\n
 D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\obj\Debug\net7.0\ref\TodoWebApp_Server_v2.dll
 D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\bin\Debug\net7.0\TodoWebApp_Server_v2.xml
 D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\obj\Debug\net7.0\TodoWebApp_Server_v2.xml
+D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\bin\Debug\net7.0\TodoWebApp_Server_v2.staticwebassets.runtime.json
+D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\bin\Debug\net7.0\CloudinaryDotNet.dll
+D:\Dev\Projects\TodoWebApp\TodoWebApp_Server_v2\TodoWebApp_Server_v2\bin\Debug\net7.0\Newtonsoft.Json.dll

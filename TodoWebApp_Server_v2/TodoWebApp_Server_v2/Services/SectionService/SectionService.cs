@@ -19,7 +19,7 @@ namespace TodoWebApp_Server_v2.Services.SectionService
             _todoDbContext = todoDbContext;
             _mapper = mapper;
         }
-        public async Task<ResponseObjectDto> CreateSection( SectionCreateRequestDto SectionCreateRequestDto )
+        public async Task<ResponseObjectDto> CreateSectionAsync( SectionCreateRequestDto SectionCreateRequestDto )
         {
             if(string.IsNullOrEmpty(SectionCreateRequestDto.Name)) return new ResponseObjectDto("Invalid value");
 
@@ -34,12 +34,12 @@ namespace TodoWebApp_Server_v2.Services.SectionService
             return new ResponseObjectDto("Created", _mapper.Map<SectionResponseDto>(newSection), true);
         }
 
-        public Task<ResponseObjectDto> DeleSectionById( long id )
+        public Task<ResponseObjectDto> DeleSectionByIdAsync( long id )
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseObjectDto> GetAllSectionByProjectId( long id )
+        public async Task<ResponseObjectDto> GetAllSectionByProjectIdAsync( long id )
         {
 
             if(string.IsNullOrEmpty(id.ToString())) return new ResponseObjectDto("Invalid value!");
@@ -52,12 +52,12 @@ namespace TodoWebApp_Server_v2.Services.SectionService
             return new ResponseObjectDto("Success", listSection, true);
         }
 
-        public Task<ResponseObjectDto> GetSectionByName( string name )
+        public Task<ResponseObjectDto> GetSectionByNameAsync( string name )
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseObjectDto> UpdateSectionById( long id, SectionUpdateRequestDto SectionUpdateRequestDto )
+        public Task<ResponseObjectDto> UpdateSectionByIdAsync( long id, SectionUpdateRequestDto SectionUpdateRequestDto )
         {
             throw new NotImplementedException();
         }

@@ -13,6 +13,7 @@ import {
     SectionReducer,
     TaskTodoHandleComplete,
     TaskTodoReducer,
+    TasksRescheduleReducer,
     UserReducer,
 } from "./States";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
     rootTaskTodoHandleCompleteReducer: TaskTodoHandleComplete,
     rootProjectUpdateReducer: ProjectUpdateReducer,
     rootModalReducer: ModalReducer,
+    rootTasksRescheduleReducer: TasksRescheduleReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

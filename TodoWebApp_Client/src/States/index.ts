@@ -9,6 +9,7 @@ import TaskTodoReducer from "./TaskTodoReducer";
 import TaskTodoHandleComplete from "./TaskTodoHandleComplete";
 import ProjectUpdateReducer from "./ProjectUpdateReducer";
 import ModalReducer from "./ModalReducer";
+import TasksRescheduleReducer from "./TasksRescheduleReducer";
 export {
     UserReducer,
     ProjectReducer,
@@ -21,4 +22,5 @@ export {
     TaskTodoHandleComplete,
     ProjectUpdateReducer,
     ModalReducer,
+    TasksRescheduleReducer,
 };

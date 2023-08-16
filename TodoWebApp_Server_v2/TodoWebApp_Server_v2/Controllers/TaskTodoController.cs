@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoWebApp_Server_v2.Dtos.TaskTodoDto;
 using TodoWebApp_Server_v2.Services.TaskTodoService;
@@ -7,6 +8,7 @@ namespace TodoWebApp_Server_v2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TaskTodoController : ControllerBase
     {
         private readonly ITaskTodoService _taskTodoService;
@@ -22,7 +24,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTaskTodo([FromBody] TaskTodoCreateRequestDto taskTodoCreateRequestDto)
         {
-            var response = await _taskTodoService.CreateTaskTodo(taskTodoCreateRequestDto);
+            var response = await _taskTodoService.CreateTaskTodoAsync(taskTodoCreateRequestDto);
 
             if(response.IsSuccess()) return Ok(response);
 
@@ -35,7 +37,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("userid/{id}")]
         public async Task<IActionResult> GetAllTaskTodoInSectionByProjectId( [FromRoute] Guid id )
         {
-            var response = await _taskTodoService.GetAllTaskTodoByUserId(id);
+            var response = await _taskTodoService.GetAllTaskTodoByUserIdAsync(id);
 
             if(response.IsSuccess()) return Ok(response);
 
@@ -48,7 +50,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("projectid/{id}")]
         public async Task<IActionResult> GetAllTaskTodoInSectionByProjectId( [FromRoute] long id )
         {
-            var response = await _taskTodoService.GetAllTaskTodoInSectionByProjectId(id);
+            var response = await _taskTodoService.GetAllTaskTodoInSectionByProjectIdAsync(id);
 
             if(response.IsSuccess()) return Ok(response);
 
@@ -61,7 +63,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("complete/{id}")]
         public async Task<IActionResult> HanldeCompletedTaskTodo([FromRoute] long id)
         {
-            var response = await _taskTodoService.HanldeCompletedTaskTodo(id);
+            var response = await _taskTodoService.HanldeCompletedTaskTodoAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -73,7 +75,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("undocomplete/{id}")]
         public async Task<IActionResult> HanldeUndoCompletedTaskTodo( [FromRoute] long id )
         {
-            var response = await _taskTodoService.HanldeUndoCompletedTaskTodo(id);
+            var response = await _taskTodoService.HanldeUndoCompletedTaskTodoAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -85,7 +87,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("priority/{id}")]
         public async Task<IActionResult> UpdatePriorityById( [FromRoute] long id, [FromBody] TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest )
         {
-            var response = await _taskTodoService.UpdatePriorityById(id, taskTodoPriorityUpdateRequest);
+            var response = await _taskTodoService.UpdatePriorityByIdAsync(id, taskTodoPriorityUpdateRequest);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -97,7 +99,21 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("duedate/{id}")]
         public async Task<IActionResult> UpdateDueDateById( [FromRoute] long id, [FromBody] TaskTodoDueDateUpdateRequest taskTodoDueDateUpdateRequest )
         {
-            var response = await _taskTodoService.UpdateDueDateById(id, taskTodoDueDateUpdateRequest);
+            var response = await _taskTodoService.UpdateDueDateByIdAsync(id, taskTodoDueDateUpdateRequest);
+            if(response.IsSuccess()) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+
+        /// <summary>
+        /// Reschedule task with array id
+        /// </summary>
+        [HttpPut("reschedule")]
+        public async Task<IActionResult> RescheduleForManyTasks( [FromBody] TaskTodoRescheduleRequestDto taskTodoRescheduleRequest )
+        {
+            var response = await _taskTodoService.RescheduleForManyTasksAsync(taskTodoRescheduleRequest);
+
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);

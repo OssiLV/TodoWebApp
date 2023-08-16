@@ -114,28 +114,85 @@
             Update Due Date for TaskTodo
             </summary>
         </member>
-        <member name="T:TodoWebApp_Server_v2.Migrations.InitDB">
+        <member name="M:TodoWebApp_Server_v2.Controllers.TaskTodoController.RescheduleForManyTasks(TodoWebApp_Server_v2.Dtos.TaskTodoDto.TaskTodoRescheduleRequestDto)">
+            <summary>
+            Reschedule task with array id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.HandleUploadAvatar(TodoWebApp_Server_v2.Dtos.UserDto.UploadImageRequestDto)">
+            <summary>
+             Upload avatar with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.UpdatePassword(TodoWebApp_Server_v2.Dtos.UserDto.UpdatePasswordRequestDto)">
+            <summary>
+             Update password with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.UpdateEmail(TodoWebApp_Server_v2.Dtos.UserDto.UpdateEmailRequestDto)">
+            <summary>
+             Update email with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.UpdateUserName(TodoWebApp_Server_v2.Dtos.UserDto.UpdateUserNameRequestDto)">
+            <summary>
+             Update User name with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.UpdateTheme(TodoWebApp_Server_v2.Dtos.UserDto.UpdateThemeRequestDto)">
+            <summary>
+             Update Theme with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.UpdateLanguage(TodoWebApp_Server_v2.Dtos.UserDto.UpdateLanguageRequestDto)">
+            <summary>
+             Update Language with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.DeleteAccount(System.Guid)">
+            <summary>
+             Delete Account with user id
+            </summary>
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Controllers.UserController.DeleteAvatar(System.Guid)">
+            <summary>
+             Delete User image with user id
+            </summary>
+        </member>
+        <member name="T:TodoWebApp_Server_v2.Migrations.InitialCreate">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.InitDB.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String">
+        <member name="T:TodoWebApp_Server_v2.Migrations.Delete_UserImage">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.Delete_UserImage.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.Delete_UserImage.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:TodoWebApp_Server_v2.Migrations.Change_Type_From_Date_To_String.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:TodoWebApp_Server_v2.Migrations.Delete_UserImage.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TodoWebApp_Server_v2.Migrations.Add_TypeString_UserImage">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Add_TypeString_UserImage.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Add_TypeString_UserImage.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TodoWebApp_Server_v2.Migrations.Add_TypeString_UserImage.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -12,8 +12,8 @@ using server_todo.Data.Context;
 namespace TodoWebApp_Server_v2.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20230729074719_InitDB")]
-    partial class InitDB
+    [Migration("20230815171613_Delete_UserImage")]
+    partial class Delete_UserImage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,18 +155,48 @@ namespace TodoWebApp_Server_v2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TailwindBgHexCode")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Color");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Violet",
+                            TailwindBgHexCode = "bg-[#6d28d9]"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "Light Blue",
+                            TailwindBgHexCode = "bg-[#dbeafe]"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Name = "Sky Blue",
+                            TailwindBgHexCode = "bg-[#60a5fa]"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Name = "Teal",
+                            TailwindBgHexCode = "bg-[#0d9488]"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Charcoal",
+                            TailwindBgHexCode = "bg-[#a3a3a3]"
+                        });
                 });
 
             modelBuilder.Entity("server_todo.Data.Entities.Project", b =>
@@ -187,7 +217,6 @@ namespace TodoWebApp_Server_v2.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -212,7 +241,6 @@ namespace TodoWebApp_Server_v2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -234,22 +262,19 @@ namespace TodoWebApp_Server_v2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CreatedAt")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Due_Date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Priority")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("TaskTodo_id")
@@ -270,27 +295,23 @@ namespace TodoWebApp_Server_v2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CreatedAt")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Due_Date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Priority")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -322,6 +343,9 @@ namespace TodoWebApp_Server_v2.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -344,6 +368,9 @@ namespace TodoWebApp_Server_v2.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")

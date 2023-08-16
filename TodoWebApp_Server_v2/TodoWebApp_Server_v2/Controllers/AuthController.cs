@@ -21,7 +21,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost]
         public async Task<IActionResult> Authenticate( [FromBody] LoginRequestDto loginRequestDto )
         {
-            var user = await _authService.Authenticate(loginRequestDto);
+            var user = await _authService.AuthenticateAsync(loginRequestDto);
 
             return Ok(user);
         }
@@ -30,7 +30,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp( [FromBody] RegisterRequestDto registerRequestDto )
         {
-            var user = await _authService.SignUp(registerRequestDto);
+            var user = await _authService.SignUpAsync(registerRequestDto);
 
             return Ok(user);
         }

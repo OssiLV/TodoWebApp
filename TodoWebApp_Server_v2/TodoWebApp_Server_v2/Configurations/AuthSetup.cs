@@ -31,14 +31,24 @@ namespace TodoWebApp_Server_v2.Configurations
             });
 
             services.AddCors(opt => opt
-                .AddPolicy("AllowAll",
+                .AddPolicy("Product",
                 builder =>
                 builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
+                    .WithOrigins("https://ossilv.tech")
+                    .WithMethods("GET", "PUT", "POST", "DELETE")
                     .AllowAnyHeader()
                     )
             );
+
+            services.AddCors(opt => opt
+               .AddPolicy("Dev",
+               builder =>
+               builder
+                   .WithOrigins("http://localhost:3000")
+                   .WithMethods("GET", "PUT", "POST", "DELETE")
+                   .AllowAnyHeader()
+                   )
+           );
 
             return services;
         }

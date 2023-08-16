@@ -20,6 +20,10 @@ const ModalAddTaskComponent = () => {
     }, []);
 
     const dispatch = useDispatch();
+
+    const { theme, language } = useSelector(
+        (state: RootStates) => state.rootUserReducer
+    );
     const _priority = useSelector(
         (state: RootStates) => state.rootPriorityReducer
     );
@@ -164,15 +168,34 @@ const ModalAddTaskComponent = () => {
                 data-te-modal-dialog-ref
                 className="pointer-events-none relative flex min-h-[calc(100%-1rem)] w-auto translate-y-[-50px] items-center opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:min-h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]"
             >
-                <div className="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+                <div
+                    className={clsx(
+                        "pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-clip-padding text-current shadow-lg outline-none ",
+                        {
+                            " bg-gray-800": theme === "Dark",
+                            " bg-white":
+                                theme === "Primary" || theme === "Neutral",
+                        }
+                    )}
+                >
                     {/* MODAL-BODY */}
                     <div className="relative p-4 ">
                         {/* TASK-NAME */}
                         <div className="relative mb-3">
                             <input
-                                className="text-xl min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none"
+                                className={clsx(
+                                    "text-xl min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none",
+                                    {
+                                        "bg-neutral-800 text-white":
+                                            theme === "Dark",
+                                    }
+                                )}
                                 type="text"
-                                placeholder="Task Name"
+                                placeholder={
+                                    language === "en"
+                                        ? "Task Name"
+                                        : "Tên tác vụ"
+                                }
                                 value={taskName}
                                 onChange={handleChangeValueTaskName}
                                 aria-autocomplete="none"
@@ -182,9 +205,17 @@ const ModalAddTaskComponent = () => {
                         {/* DESCRIPTION */}
                         <div className="relative mb-3">
                             <input
-                                className="text-sm min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none "
+                                className={clsx(
+                                    "text-sm min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none ",
+                                    {
+                                        "bg-neutral-800 text-white":
+                                            theme === "Dark",
+                                    }
+                                )}
                                 type="text"
-                                placeholder="Description"
+                                placeholder={
+                                    language === "en" ? "Description" : "Mô tả"
+                                }
                                 value={description}
                                 onChange={handleChangeValueDescription}
                                 aria-autocomplete="none"
@@ -215,13 +246,24 @@ const ModalAddTaskComponent = () => {
                                 data-te-ripple-color="light"
                             >
                                 {priority.name === "P4" ? (
-                                    <div className="flex items-center opacity-50">
+                                    <div
+                                        className={clsx(
+                                            "flex items-center opacity-50",
+                                            {
+                                                "text-white": theme === "Dark",
+                                            }
+                                        )}
+                                    >
                                         <span>
                                             <OFlagIcon
                                                 className={clsx(`w-4 h-4 `)}
                                             />
                                         </span>
-                                        <p className="ml-2 ">Priority</p>
+                                        <p className="ml-2 ">
+                                            {language === "en"
+                                                ? "Priority"
+                                                : "Ưu tiên"}
+                                        </p>
                                     </div>
                                 ) : (
                                     <div className="flex items-center">
@@ -237,7 +279,11 @@ const ModalAddTaskComponent = () => {
                                                 })}
                                             />
                                         </span>
-                                        <p className="ml-2 font-thin">
+                                        <p
+                                            className={clsx("ml-2 font-thin", {
+                                                "text-white": theme === "Dark",
+                                            })}
+                                        >
                                             {priority.name}
                                         </p>
                                     </div>
@@ -280,7 +326,14 @@ const ModalAddTaskComponent = () => {
                                                 }
                                             )}
                                         ></span>
-                                        <div className="flex text-black">
+                                        <div
+                                            className={clsx("flex ", {
+                                                "text-white": theme === "Dark",
+                                                "text-black":
+                                                    theme === "Primary" ||
+                                                    theme === "Neutral",
+                                            })}
+                                        >
                                             {_projectName.length >= 15
                                                 ? _projectName.substring(
                                                       0,
@@ -326,24 +379,41 @@ const ModalAddTaskComponent = () => {
                             <div className="flex items-center ">
                                 <button
                                     type="button"
-                                    className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                                    className={clsx(
+                                        "inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out  ",
+                                        {
+                                            "text-primary-700 bg-primary-100 hover:bg-primary-accent-100 ":
+                                                theme === "Primary ",
+                                            "text-white": theme === "Dark",
+                                        }
+                                    )}
                                     data-te-modal-dismiss
-                                    data-te-ripple-init
-                                    data-te-ripple-color="light"
                                     onClick={handleCancel}
                                 >
-                                    Cancel
+                                    {language === "en" ? "Cancel" : "Hủy"}
                                 </button>
                                 <button
                                     type="button"
                                     disabled={checkValue}
                                     onClick={handleAddTask}
-                                    className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                    className={clsx(
+                                        "ml-1 inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] ",
+                                        {
+                                            "text-white bg-primary hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]":
+                                                theme === "Primary",
+                                            "text-neutral-800 bg-primary-100 hover:bg-opacity-70":
+                                                theme === "Dark",
+                                            "text-neutral-800 shadow-[0_4px_9px_-4px_#3b71ca] hover:opacity-80":
+                                                theme === "Neutral",
+                                        }
+                                    )}
                                     data-te-ripple-init
                                     data-te-modal-dismiss
                                     data-te-ripple-color="light"
                                 >
-                                    Add task
+                                    {language === "en"
+                                        ? "Add task"
+                                        : "Thêm tác vụ"}
                                 </button>
                             </div>
                         </div>

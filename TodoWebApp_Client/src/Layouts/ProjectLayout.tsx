@@ -10,6 +10,7 @@ import { IProjectLayoutComponent } from "../Global/InterfaceComponents";
 import { IProject, IProjectUpdate, RootStates } from "../Global";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjectUpdate } from "../States/ProjectUpdateReducer";
+import clsx from "clsx";
 
 const ProjectLayout: FC<IProjectLayoutComponent> = ({
     listSections,
@@ -18,17 +19,13 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
     const { projectId } = useParams();
     const dispatch = useDispatch();
 
-    let projectIdNumber: number | undefined;
+    const { theme } = useSelector((state: RootStates) => state.rootUserReducer);
 
-    if (projectId) {
-        try {
-            projectIdNumber = parseInt(projectId);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const [isOpenEditProjectName, setOpenEditprojectName] = useState(false);
+    const [projectNameValue, setProjectNameValue] = useState("");
+
     const projectById = listProjects.find(
-        (project) => project.id === projectIdNumber
+        (project) => project.id.toString() === projectId
     );
 
     useEffect(() => {
@@ -36,9 +33,6 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
             setProjectNameValue(projectById.name);
         }
     }, [projectById]);
-
-    const [isOpenEditProjectName, setOpenEditprojectName] = useState(false);
-    const [projectNameValue, setProjectNameValue] = useState("");
 
     const sectionsWithProjectId = listSections.filter((section) => {
         return section.project_id === projectById?.id;
@@ -92,7 +86,13 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                             <div className="flex flex-col">
                                 <input
                                     type="text"
-                                    className=" text-2xl w-44 p-1 font-bold min-h-[auto]  rounded-lg border-2 border-black bg-transparent  outline-none"
+                                    className={clsx(
+                                        " text-2xl w-44 p-1 font-bold min-h-[auto]  rounded-lg border-2 outline-none",
+                                        {
+                                            "bg-neutral-800 border-white  text-white":
+                                                theme === "Dark",
+                                        }
+                                    )}
                                     value={projectNameValue}
                                     onChange={handleChangeProjectNameValue}
                                     aria-autocomplete="none"
@@ -101,14 +101,31 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                                     <button
                                         type="button"
                                         onClick={handleUpdateProjectName}
-                                        className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                        className={clsx(
+                                            "ml-1 inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out   ",
+                                            {
+                                                "text-white bg-primary hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]":
+                                                    theme === "Primary",
+                                                "text-neutral-800 bg-primary-100 hover:bg-opacity-70":
+                                                    theme === "Dark",
+                                                "text-neutral-800 shadow-[0_4px_9px_-4px_#3b71ca] hover:opacity-80":
+                                                    theme === "Neutral",
+                                            }
+                                        )}
                                     >
                                         Save
                                     </button>
                                     <button
                                         onClick={closeEditprojectName}
                                         type="button"
-                                        className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                                        className={clsx(
+                                            "inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out ",
+                                            {
+                                                "text-primary-700 bg-primary-100 hover:bg-primary-accent-100 ":
+                                                    theme === "Primary ",
+                                                "text-white": theme === "Dark",
+                                            }
+                                        )}
                                     >
                                         Cancel
                                     </button>
@@ -116,16 +133,24 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                             </div>
                         ) : (
                             <p
-                                className="text-2xl font-bold p-1 hover:bg-neutral-200 cursor-pointer"
+                                className={clsx(
+                                    "text-2xl font-bold p-1 cursor-pointer rounded-md",
+                                    {
+                                        "text-white hover:bg-neutral-400":
+                                            theme === "Dark",
+                                        "hover:bg-neutral-200":
+                                            theme === "Primary" || "Neutral",
+                                    }
+                                )}
                                 onClick={openEditprojectName}
                             >
                                 {projectNameValue}
                             </p>
                         )}
                     </div>
+                    {/* VIEW */}
                     <div className="flex gap-4 select-none">
-                        {/* VIEW */}
-                        <button
+                        {/* <button
                             type="button"
                             className="text-md text-neutral-500 hover:text-neutral-700 p-[6px] rounded-xl hover:bg-gray-200 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                             // data-te-toggle="modal"
@@ -139,7 +164,7 @@ const ProjectLayout: FC<IProjectLayoutComponent> = ({
                                 </span>
                                 View
                             </div>
-                        </button>
+                        </button> */}
 
                         {/* SETTING */}
                         <button

@@ -9,17 +9,23 @@ import {
     IProjectLayoutComponent,
     ISidenavComponent,
     IModalTaskTodoComponent,
+    IModalAccountComponent,
+    IThemeCardComponent,
 } from "./InterfaceComponents";
 import { IDataTransfer } from "./InterfaceDataTransfer";
 import { IDueDate } from "./InterfaceDueDate";
 import { IPriority } from "./InterfacePriority";
 import { RootStates } from "./InterfaceRootReducer";
 import { ISection } from "./InterfaceSections";
-import { ITaskTodo, ITaskTodoHandleComplete } from "./InterfaceTaskTodo";
+import {
+    ITaskTodo,
+    ITaskTodoHandleComplete,
+    ITaskReschedule,
+} from "./InterfaceTaskTodo";
 import { IUser } from "./InterfaceUser";
 import { formatDate, parseDate, isEmptyObject } from "./Actions";
 import { IModal } from "./InterfaceModal";
-
+import { ITheme } from "./InterfaceTheme";
 export type {
     IProjectUpdate,
     IProject,
@@ -29,6 +35,8 @@ export type {
     IProjectLayoutComponent,
     ISidenavComponent,
     IModalTaskTodoComponent,
+    IModalAccountComponent,
+    IThemeCardComponent,
     IDataTransfer,
     IDueDate,
     IPriority,
@@ -36,8 +44,10 @@ export type {
     ISection,
     ITaskTodo,
     ITaskTodoHandleComplete,
+    ITaskReschedule,
     IUser,
     IModal,
+    ITheme,
 };
 
 export { parseDate, formatDate, isEmptyObject };

@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
+    const navigate = useNavigate();
+
     const [error, setError] = useState("");
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -21,7 +23,7 @@ const SignUpPage = () => {
                 if (!res.data.status) {
                     setError(res.data.message);
                 } else {
-                    window.location.assign("/");
+                    navigate("/");
                 }
             })
             .catch((error) => console.error(`Cannot SignUp `, error));

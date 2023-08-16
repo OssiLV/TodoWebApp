@@ -23,7 +23,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             _mapper = mapper;
         }
 
-        public async Task<ResponseObjectDto> GetAllProjectAndSectionByUserId( Guid Id )
+        public async Task<ResponseObjectDto> GetAllProjectAndSectionByUserIdAsync( Guid Id )
         {
             if(string.IsNullOrEmpty(Id.ToString())) return new ResponseObjectDto("Invalid value!");
 
@@ -54,7 +54,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
 
 
         }
-        public async Task<ResponseObjectDto> GetAllProjectByUserId( Guid Id )
+        public async Task<ResponseObjectDto> GetAllProjectByUserIdAsync( Guid Id )
         {
             if(string.IsNullOrEmpty(Id.ToString())) return new ResponseObjectDto("Invalid value!");
 
@@ -80,7 +80,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             return new ResponseObjectDto("Success", listProject, true);
         }
 
-        public async Task<ResponseObjectDto> GetProjectByName( string name )
+        public async Task<ResponseObjectDto> GetProjectByNameAsync( string name )
         {
             if(string.IsNullOrEmpty(name)) return new ResponseObjectDto("Invalid value");
 
@@ -91,7 +91,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             return new ResponseObjectDto("Success", project, true);
         }
 
-        public async Task<ResponseObjectDto> CreateProject( ProjectCreateRequestDto projectCreateRequestDto )
+        public async Task<ResponseObjectDto> CreateProjectAsync( ProjectCreateRequestDto projectCreateRequestDto )
         {
             if(string.IsNullOrEmpty(projectCreateRequestDto.Name) | string.IsNullOrEmpty(projectCreateRequestDto.Color_id.ToString()))
                 return new ResponseObjectDto("Invalid value");
@@ -131,7 +131,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
         }
 
 
-        public async Task<ResponseObjectDto> UpdateProjectById( long id, ProjectUpdateRequestDto projectUpdateRequestDto )
+        public async Task<ResponseObjectDto> UpdateProjectByIdAsync( long id, ProjectUpdateRequestDto projectUpdateRequestDto )
         {
             Project project = await _todoDbContext.Projects.FindAsync(id);
 
@@ -144,7 +144,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             return new ResponseObjectDto("Updated", _mapper.Map<ProjectResponseDto>(project), true);
         }
 
-        public async Task<ResponseObjectDto> ForceDeleteProjectById( long id )
+        public async Task<ResponseObjectDto> ForceDeleteProjectByIdAsync( long id )
         {
             var project = await _todoDbContext.Projects.FindAsync(id);
 
@@ -163,7 +163,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             return new ResponseObjectDto("Deleted", true);
         }
 
-        public async Task<ResponseObjectDto> SoftDeleteProjectById( long id )
+        public async Task<ResponseObjectDto> SoftDeleteProjectByIdAsync( long id )
         {
             var project = await _todoDbContext.Projects.FindAsync(id);
 
@@ -176,7 +176,7 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
             return new ResponseObjectDto("Soft Deleted", true);
         }
 
-        public async Task<ResponseObjectDto> UndoDeleteProjectById( long id )
+        public async Task<ResponseObjectDto> UndoDeleteProjectByIdAsync( long id )
         {
             var project = await _todoDbContext.Projects.FindAsync(id);
 

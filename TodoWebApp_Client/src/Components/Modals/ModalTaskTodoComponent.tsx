@@ -73,7 +73,7 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
     }
 
     const handleCloseModal = () => {
-        dispatch(setCloseModal({ data: {}, isOpen: false }));
+        dispatch(setCloseModal());
         dispatch(setPriority({ id: 0, type: "ADDTASK", name: "" }));
         dispatch(
             setDueDate({
@@ -93,6 +93,7 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
 
     const handleCompletedTaskTodo = (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
+
         if (!completed) {
             axios({
                 method: "PUT",
@@ -138,12 +139,7 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
 
     const handleClickCategory = () => {
         // navigate(`/app/project/${project?.id}`);
-        dispatch(
-            setOpenModal({
-                data: {},
-                isOpen: false,
-            })
-        );
+        dispatch(setCloseModal());
     };
 
     useEffect(() => {
@@ -160,7 +156,7 @@ const ModalTaskTodoComponent: FC<IModalTaskTodoComponent> = ({
                 },
             })
                 .then((res) => {
-                    console.log(fullDateTime);
+                    // console.log(fullDateTime);
                     dispatch(
                         setDueDate({
                             task_id: _taskTodo.id,

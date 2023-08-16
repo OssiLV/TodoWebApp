@@ -13,12 +13,14 @@ import { setSection } from "../States/SectionReducer";
 import ModalOptionProjectComponent from "./Modals/ModalOptionProjectComponent";
 import { formatDate } from "../Global";
 import TaskComponent from "./TaskComponent";
-import { setDueDate } from "../States/DueDateReducer";
 
 const SectionComponent: FC<ISection> = ({ id, name }) => {
     const dispatch = useDispatch();
     const { projectId } = useParams();
 
+    const { theme, language } = useSelector(
+        (state: RootStates) => state.rootUserReducer
+    );
     const { task_id, type, fullDateTime } = useSelector(
         (state: RootStates) => state.rootDueDateReducer
     );
@@ -114,13 +116,17 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
     }, [projectId]);
 
     useEffect(() => {
-        const tasksCopy = [...tasks];
-        tasksCopy.map((task) => {
-            if (task.id === _priority.id) {
-                task.priority = _priority.name;
-            }
-        });
-        setTasks(tasksCopy);
+        if (tasks !== null) {
+            const tasksCopy = Array.from(tasks);
+
+            tasksCopy.map((task) => {
+                if (task.id === _priority.id) {
+                    task.priority = _priority.name;
+                }
+            });
+
+            setTasks(tasksCopy);
+        }
     }, [_priority]);
 
     useEffect(() => {
@@ -195,8 +201,6 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
     };
 
     const handleAddTask = (sectionId: number) => {
-        console.log(_priority.name);
-
         axios({
             method: "POST",
             url: "/TaskTodo",
@@ -234,7 +238,8 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
             <ModalOptionProjectComponent
                 handleOpenAddSection={handleOpenAddSection}
             />
-            <div className="  pt-4">
+
+            <div className=" pt-4">
                 {name !== "Default" && (
                     <div className=" flex items-center justify-between">
                         <div className=" flex items-center gap-2">
@@ -256,27 +261,33 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                     <ChevronDownIcon />
                                 </span>
                             </button>
-                            <h1 className="font-bold text-base">{name}</h1>
+                            <h1
+                                className={clsx("font-bold text-base", {
+                                    "text-white": theme === "Dark",
+                                })}
+                            >
+                                {name}
+                            </h1>
                             <span className="inline-block whitespace-nowrap rounded-full  px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-primary opacity-60">
                                 {tasksLength !== 0 ? tasksLength : ""}
                             </span>
                         </div>
-                        <button
+                        {/* <button
                             type="button"
                             className="text-md text-neutral-500 hover:text-neutral-700 p-[6px] rounded-xl hover:bg-gray-200 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                            // data-te-toggle="modal"
-                            // data-te-target="#addtaskmodal"
-                            // data-te-ripple-init
-                            // data-te-ripple-color="light"
+                            data-te-toggle="modal"
+                            data-te-target="#addtaskmodal"
+                            data-te-ripple-init
+                            data-te-ripple-color="light"
                         >
                             <span className="[&>svg]:w-5">
                                 <EllipsisHorizontalIcon />
                             </span>
-                        </button>
+                        </button> */}
                     </div>
                 )}
 
-                <div className={clsx("divide-y divide-gray-300 ", {})}>
+                <div className="divide-y divide-gray-300 ">
                     <div
                         className={clsx("divide-y block", {
                             hidden: collapse,
@@ -306,7 +317,13 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                         <input
                                             type="text"
                                             placeholder="Task name"
-                                            className="w-full font-bold border-0 outline-none"
+                                            className={clsx(
+                                                "w-full font-bold border-0 outline-none",
+                                                {
+                                                    "bg-neutral-800 text-white":
+                                                        theme === "Dark",
+                                                }
+                                            )}
                                             onChange={handleChangeValueTaskname}
                                             value={taskName}
                                             aria-autocomplete="none"
@@ -314,7 +331,13 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                         <input
                                             type="text"
                                             placeholder="Description"
-                                            className="w-full text-sm border-0 outline-none"
+                                            className={clsx(
+                                                "w-full opacity-75 border-0 outline-none",
+                                                {
+                                                    "bg-neutral-800 text-white":
+                                                        theme === "Dark",
+                                                }
+                                            )}
                                             onChange={
                                                 handleChangeValueDescription
                                             }
@@ -345,15 +368,30 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                             >
                                                 {_priority.name === "" ||
                                                 _priority.name === "P4" ? (
-                                                    <div className="flex items-center opacity-50">
-                                                        <span>
+                                                    <div className="flex items-center opacity-50 ">
+                                                        <span
+                                                            className={clsx({
+                                                                "text-white":
+                                                                    theme ===
+                                                                    "Dark",
+                                                            })}
+                                                        >
                                                             <OFlagIcon
                                                                 className={clsx(
                                                                     `w-4 h-4 `
                                                                 )}
                                                             />
                                                         </span>
-                                                        <p className="ml-2 ">
+                                                        <p
+                                                            className={clsx(
+                                                                "ml-2 ",
+                                                                {
+                                                                    "text-white":
+                                                                        theme ===
+                                                                        "Dark",
+                                                                }
+                                                            )}
+                                                        >
                                                             Priority
                                                         </p>
                                                     </div>
@@ -377,7 +415,16 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                                                 )}
                                                             />
                                                         </span>
-                                                        <p className="ml-2 font-thin">
+                                                        <p
+                                                            className={clsx(
+                                                                "ml-2 font-thin",
+                                                                {
+                                                                    "text-white":
+                                                                        theme ===
+                                                                        "Dark",
+                                                                }
+                                                            )}
+                                                        >
                                                             {_priority.name}
                                                         </p>
                                                     </div>
@@ -392,24 +439,43 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                 <div className="flex items-center justify-center pt-2 gap-4">
                                     <button
                                         type="button"
-                                        className="inline-block rounded bg-primary-100 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                                        className={clsx(
+                                            "inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out ",
+                                            {
+                                                "text-primary-700 bg-primary-100 hover:bg-primary-accent-100 ":
+                                                    theme === "Primary ",
+                                                "text-white": theme === "Dark",
+                                            }
+                                        )}
                                         data-te-modal-dismiss
                                         data-te-ripple-init
                                         data-te-ripple-color="light"
                                         onClick={hanldeOpenAddTask}
                                     >
-                                        Cancel
+                                        {language === "en" ? "Cancel" : "Hủy"}
                                     </button>
                                     <button
                                         disabled={checkValueTaskName}
                                         type="button"
-                                        className="ml-1 inline-block rounded bg-primary px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                        className={clsx(
+                                            "ml-1 cursor-pointer inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out   ",
+                                            {
+                                                "text-white bg-primary hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]":
+                                                    theme === "Primary",
+                                                "text-neutral-800 bg-primary-100 hover:bg-opacity-70":
+                                                    theme === "Dark",
+                                                "text-neutral-800 shadow-[0_4px_9px_-4px_#3b71ca] hover:opacity-80":
+                                                    theme === "Neutral",
+                                            }
+                                        )}
                                         data-te-ripple-init
                                         data-te-modal-dismiss
                                         data-te-ripple-color="light"
                                         onClick={() => handleAddTask(id)}
                                     >
-                                        Add task
+                                        {language === "en"
+                                            ? "Add task"
+                                            : "Thêm tác vụ"}
                                     </button>
                                 </div>
                             </div>
@@ -422,13 +488,31 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                                     <div className="flex flex-auto items-center gap-2 text-primary hover:text-primary cursor-pointer">
                                         <button
                                             type="button"
-                                            className="left-0 top-2 text-sm text-neutral-500"
+                                            className={clsx(
+                                                "left-0 top-2 text-sm ",
+                                                {
+                                                    "text-neutral-500":
+                                                        theme === "Primary",
+                                                    "text-primary":
+                                                        theme === "Dark",
+                                                }
+                                            )}
                                         >
                                             <span className="[&>svg]:w-5 [&>svg]:h-5  ">
                                                 <PlusIcon />
                                             </span>
                                         </button>
-                                        <p className="text-sm">Add Task</p>
+                                        <p
+                                            className={clsx("text-sm", {
+                                                "text-white": theme === "Dark",
+                                                "text-black":
+                                                    theme === "Neutral",
+                                            })}
+                                        >
+                                            {language === "en"
+                                                ? "Add task"
+                                                : "Thêm tác vụ"}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +524,13 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                         <input
                             type="text"
                             placeholder="Name this section"
-                            className="font-bold border rounded-lg p-2 w-full outline-none "
+                            className={clsx(
+                                "font-bold border rounded-lg p-2 w-full outline-none ",
+                                {
+                                    "bg-neutral-800 text-white":
+                                        theme === "Dark",
+                                }
+                            )}
                             onChange={handleChangeValueSectionName}
                             value={sectionName}
                             aria-autocomplete="none"
@@ -449,7 +539,17 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                             <button
                                 disabled={checkValueSectionName}
                                 type="button"
-                                className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-sm font-medium  leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                className={clsx(
+                                    "ml-1 cursor-pointer inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out   ",
+                                    {
+                                        "text-white bg-primary hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]":
+                                            theme === "Primary",
+                                        "text-neutral-800 bg-primary-100 hover:bg-opacity-70":
+                                            theme === "Dark",
+                                        "text-neutral-800 shadow-[0_4px_9px_-4px_#3b71ca] hover:opacity-80":
+                                            theme === "Neutral",
+                                    }
+                                )}
                                 data-te-ripple-init
                                 data-te-modal-dismiss
                                 data-te-ripple-color="light"
@@ -459,7 +559,14 @@ const SectionComponent: FC<ISection> = ({ id, name }) => {
                             </button>
                             <button
                                 type="button"
-                                className="inline-block rounded  px-6 pb-2 pt-2.5 text-base font-medium  leading-normal  transition duration-150 ease-in-out hover:underline "
+                                className={clsx(
+                                    "inline-block rounded  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  transition duration-150 ease-in-out ",
+                                    {
+                                        "text-primary-700 bg-primary-100 hover:bg-primary-accent-100 ":
+                                            theme === "Primary ",
+                                        "text-white": theme === "Dark",
+                                    }
+                                )}
                                 data-te-modal-dismiss
                                 data-te-ripple-init
                                 data-te-ripple-color="light"

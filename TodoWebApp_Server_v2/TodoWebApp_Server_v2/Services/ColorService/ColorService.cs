@@ -26,7 +26,7 @@ namespace TodoWebApp_Server_v2.Services.ColorService
             return new ResponseObjectDto("Get list color success", color, true);
         }
 
-        public async Task<ResponseObjectDto> GetColorById( long id )
+        public async Task<ResponseObjectDto> GetColorByIdAsync( long id )
         {
             var color = await _todoDbContext.Colors.FindAsync(id);
 
@@ -35,7 +35,7 @@ namespace TodoWebApp_Server_v2.Services.ColorService
             return new ResponseObjectDto("Get success", _mapper.Map<ColorResponseDto>(color), true);
         }
 
-        public async Task<ResponseObjectDto> CreateColor( ColorCreateResquestDto colorCreateResquestDto )
+        public async Task<ResponseObjectDto> CreateColorAsync( ColorCreateResquestDto colorCreateResquestDto )
         {
             var newColor = _mapper.Map<Color>(colorCreateResquestDto);
 
@@ -47,7 +47,7 @@ namespace TodoWebApp_Server_v2.Services.ColorService
         }
 
 
-        public async Task<ResponseObjectDto> UpdateColorById(long id, ColorUpdateRequestDto colorUpdateRequestDto)
+        public async Task<ResponseObjectDto> UpdateColorByIdAsync( long id, ColorUpdateRequestDto colorUpdateRequestDto)
         {
             var color = await _todoDbContext.Colors.FindAsync(id);
 
@@ -60,7 +60,7 @@ namespace TodoWebApp_Server_v2.Services.ColorService
             return new ResponseObjectDto("Updated", _mapper.Map<ColorResponseDto>(color), true);
         }
 
-        public async Task<ResponseObjectDto> DeleteColorById( long id)
+        public async Task<ResponseObjectDto> DeleteColorByIdAsync( long id)
         {
             var color = await _todoDbContext.Colors.FindAsync(id);
 

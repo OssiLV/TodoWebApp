@@ -1,4 +1,5 @@
 export interface ITaskTodo {
+    todayLayout?: boolean;
     id: number;
     name: string;
     priority: string;
@@ -10,4 +11,10 @@ export interface ITaskTodo {
 export interface ITaskTodoHandleComplete {
     id: number;
     isCompleted: boolean;
+}
+
+export interface ITaskReschedule {
+    queueIdTasks: Array<number>;
+    isSuccess: boolean;
+    dueDate: string;
 }

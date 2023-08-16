@@ -4,7 +4,7 @@ module.exports = {
         "./src/**/*.{js,jsx,ts,tsx}",
         "./node_modules/tw-elements/dist/js/**/*.js",
     ],
-    darkMode: "class",
+    darkMode: ["class", "neutral"],
     theme: {
         screens: {
             tabletOrDesktop: "600px",
@@ -23,6 +23,7 @@ module.exports = {
             red: {
                 500: "#ef4444",
                 600: "#dc2626",
+                700: "#b91c1c",
             },
             yellow: {
                 200: "#fef08a",
@@ -37,12 +38,14 @@ module.exports = {
                 800: "#262626",
             },
             gray: {
+                50: "#f9fafb",
                 100: "#f3f4f6",
                 200: "#e5e7eb",
                 300: "#d1d5db",
                 400: "#9ca3af",
                 500: "#6b7280",
                 600: "#4b5563",
+                800: "#1f2937",
                 900: "#111827",
             },
             slate: {

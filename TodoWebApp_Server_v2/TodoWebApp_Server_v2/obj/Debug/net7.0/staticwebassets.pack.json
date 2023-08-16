@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\UserAvatars\\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg",
+      "PackagePath": "staticwebassets\\UserAvatars\\avatar--ced59070-e3a3-45cb-f775-08db9b07e6e9--NeonSPZJ3IH.jpg"
+    },
+    {
+      "Id": "D:\\Dev\\Projects\\TodoWebApp\\TodoWebApp_Server_v2\\TodoWebApp_Server_v2\\wwwroot\\UserAvatars\\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg",
+      "PackagePath": "staticwebassets\\UserAvatars\\avatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.TodoWebApp_Server_v2.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.TodoWebApp_Server_v2.props",
+      "PackagePath": "build\\TodoWebApp_Server_v2.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.TodoWebApp_Server_v2.props",
+      "PackagePath": "buildMultiTargeting\\TodoWebApp_Server_v2.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.TodoWebApp_Server_v2.props",
+      "PackagePath": "buildTransitive\\TodoWebApp_Server_v2.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

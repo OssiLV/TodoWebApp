@@ -5,14 +5,14 @@ namespace TodoWebApp_Server_v2.Services.ProjectService
 {
     public interface IProjectService
     {
-        Task<ResponseObjectDto> GetAllProjectAndSectionByUserId( Guid Id );
-        Task<ResponseObjectDto> GetAllProjectByUserId( Guid Id );
-        Task<ResponseObjectDto> GetProjectByName( string name );
-        Task<ResponseObjectDto> CreateProject( ProjectCreateRequestDto projectCreateRequestDto );
-        Task<ResponseObjectDto> UpdateProjectById(long id ,ProjectUpdateRequestDto projectUpdateRequestDto );
-        Task<ResponseObjectDto> ForceDeleteProjectById( long id );
-        Task<ResponseObjectDto> SoftDeleteProjectById( long id );
-        Task<ResponseObjectDto> UndoDeleteProjectById( long id );
+        Task<ResponseObjectDto> GetAllProjectAndSectionByUserIdAsync( Guid Id );
+        Task<ResponseObjectDto> GetAllProjectByUserIdAsync( Guid Id );
+        Task<ResponseObjectDto> GetProjectByNameAsync( string name );
+        Task<ResponseObjectDto> CreateProjectAsync( ProjectCreateRequestDto projectCreateRequestDto );
+        Task<ResponseObjectDto> UpdateProjectByIdAsync( long id ,ProjectUpdateRequestDto projectUpdateRequestDto );
+        Task<ResponseObjectDto> ForceDeleteProjectByIdAsync( long id );
+        Task<ResponseObjectDto> SoftDeleteProjectByIdAsync( long id );
+        Task<ResponseObjectDto> UndoDeleteProjectByIdAsync( long id );
 
     }
 }

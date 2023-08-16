@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     ModalCategoryComponent,
     ModalTaskTodoComponent,
@@ -7,25 +7,14 @@ import {
 } from "../Components";
 import { ProjectLayout } from "../Layouts";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IProject, IProject_FullData, ISection, RootStates } from "../Global";
-import { useParams } from "react-router-dom";
-import { setCloseModal } from "../States/ModalReducer";
+import clsx from "clsx";
 
 const ProjectPage = () => {
-    const dispatch = useDispatch();
-    const { projectId } = useParams();
-    let projectIdNumber: number | undefined;
-
-    if (projectId) {
-        try {
-            projectIdNumber = parseInt(projectId);
-        } catch (error) {
-            console.log(error);
-        }
-    }
     const _user = useSelector((state: RootStates) => state.rootUserReducer);
     const _modal = useSelector((state: RootStates) => state.rootModalReducer);
+
     const _newProject = useSelector(
         (state: RootStates) => state.rootProjectReducer
     );
@@ -38,6 +27,7 @@ const ProjectPage = () => {
     const _updatedProject = useSelector(
         (state: RootStates) => state.rootProjectUpdateReducer
     );
+
     const [fullDataProject, setFullDataProject] = useState<IProject_FullData[]>(
         []
     );
@@ -50,8 +40,6 @@ const ProjectPage = () => {
             url: `/Project/fulldata/${_user.id}`,
         })
             .then((res) => {
-                // console.log(res.data.objectData);
-
                 setFullDataProject(res.data.objectData);
             })
             .catch((error) => {
@@ -122,6 +110,8 @@ const ProjectPage = () => {
         if (_newProject !== null) {
             setListProjects((prevState) => {
                 if (prevState !== null) {
+                    // window.location.assign(`/app/project/${_newProject.id}`);
+
                     return prevState.concat(_newProject);
                 } else {
                     return [_newProject];
@@ -156,7 +146,11 @@ const ProjectPage = () => {
     }, [_updatedProject]);
 
     return (
-        <div>
+        <div
+            className={clsx("h-screen", {
+                "bg-neutral-800": _user.theme === "Dark",
+            })}
+        >
             <NavbarComponent />
             <SidenavComponent listProjects={listProjects} />
             <ProjectLayout

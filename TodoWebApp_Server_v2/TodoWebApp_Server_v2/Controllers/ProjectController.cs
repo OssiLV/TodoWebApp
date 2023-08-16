@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TodoWebApp_Server_v2.Dtos.ProjectDto;
 using TodoWebApp_Server_v2.Services.ProjectService;
@@ -7,6 +8,7 @@ namespace TodoWebApp_Server_v2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
@@ -23,7 +25,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("fulldata/{id}")]
         public async Task<IActionResult> GetAllProjectAndSectionByUserId( [FromRoute] Guid id )
         {
-            var response = await _projectService.GetAllProjectAndSectionByUserId(id);
+            var response = await _projectService.GetAllProjectAndSectionByUserIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -35,7 +37,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAllProjectByUserId( [FromRoute] Guid id )
         {
-            var response = await _projectService.GetAllProjectByUserId(id);
+            var response = await _projectService.GetAllProjectByUserIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -47,7 +49,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("projectname/{name}")]
         public async Task<IActionResult> DeleteProjectById( [FromRoute] string name )
         {
-            var response = await _projectService.GetProjectByName(name);
+            var response = await _projectService.GetProjectByNameAsync(name);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -59,7 +61,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProject( [FromBody] ProjectCreateRequestDto projectCreateRequestDto )
         {
-            var response = await _projectService.CreateProject(projectCreateRequestDto);
+            var response = await _projectService.CreateProjectAsync(projectCreateRequestDto);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -72,7 +74,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProjectById( [FromRoute] long id, [FromBody] ProjectUpdateRequestDto projectUpdateRequestDto )
         {
-            var response = await _projectService.UpdateProjectById(id, projectUpdateRequestDto);
+            var response = await _projectService.UpdateProjectByIdAsync(id, projectUpdateRequestDto);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -84,7 +86,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpDelete("force/{id}")]
         public async Task<IActionResult> ForceDeleteProjectById( [FromRoute] long id )
         {
-            var response = await _projectService.ForceDeleteProjectById(id);
+            var response = await _projectService.ForceDeleteProjectByIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -96,7 +98,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpDelete("soft/{id}")]
         public async Task<IActionResult> SoftDeleteProjectById( [FromRoute] long id )
         {
-            var response = await _projectService.SoftDeleteProjectById(id);
+            var response = await _projectService.SoftDeleteProjectByIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -108,7 +110,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost("undo/{id}")]
         public async Task<IActionResult> UndoDeleteProjectById( [FromRoute] long id )
         {
-            var response = await _projectService.UndoDeleteProjectById(id);
+            var response = await _projectService.UndoDeleteProjectByIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);

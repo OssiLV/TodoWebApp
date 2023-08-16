@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoWebApp_Server_v2.Dtos.ColorDto;
 using TodoWebApp_Server_v2.Services.ColorService;
@@ -7,6 +8,7 @@ namespace TodoWebApp_Server_v2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ColorController : ControllerBase
     {
         private readonly IColorService _colorService;
@@ -34,7 +36,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetColorById( [FromRoute] long id )
         {
-            var response = await _colorService.GetColorById(id);
+            var response = await _colorService.GetColorByIdAsync(id);
             if(response.IsSuccess()) return Ok(response);
 
             return BadRequest(response);
@@ -46,7 +48,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateColor([FromBody]ColorCreateResquestDto colorCreateResquestDto)
         {
-            var response = await _colorService.CreateColor(colorCreateResquestDto);
+            var response = await _colorService.CreateColorAsync(colorCreateResquestDto);
 
             return Ok(response);
         }
@@ -57,7 +59,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateColorById( [FromRoute] long id, [FromBody] ColorUpdateRequestDto colorUpdateRequestDto)
         {
-            var response = await _colorService.UpdateColorById(id, colorUpdateRequestDto);
+            var response = await _colorService.UpdateColorByIdAsync(id, colorUpdateRequestDto);
 
             if(response.IsSuccess()) return Ok(response);
 
@@ -70,7 +72,7 @@ namespace TodoWebApp_Server_v2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteColorById( [FromRoute] long id )
         {
-            var response = await _colorService.DeleteColorById(id);
+            var response = await _colorService.DeleteColorByIdAsync(id);
 
             if(response.IsSuccess()) return Ok(response);
 

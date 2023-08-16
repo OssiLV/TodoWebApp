@@ -1,5 +1,6 @@
 import { IProject } from "./InterfaceProject";
 import { ISection } from "./InterfaceSections";
+import { ITheme } from "./InterfaceTheme";
 
 export interface IProjectLayoutComponent {
     listSections: ISection[];
@@ -13,4 +14,14 @@ export interface IModalTaskTodoComponent {
 
 export interface ISidenavComponent {
     listProjects: IProject[];
+}
+
+export interface IModalAccountComponent {
+    handleCloseAccountModal: Function;
+}
+
+export interface IThemeCardComponent {
+    theme: ITheme;
+    check: boolean;
+    setThemeValue: Function;
 }

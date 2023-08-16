@@ -1,13 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../Global";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../States/UserReducer";
 
 const LoginPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [error, setError] = useState("");
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -19,11 +21,12 @@ const LoginPage = () => {
                 password: data.get("password"),
             })
             .then((res) => {
-                console.log(res.data);
                 if (!res.data.status) {
                     setError(res.data.message);
                 } else {
                     const _user: IUser = res.data.objectData.userResponse;
+                    // console.log(_user);
+
                     Cookies.set("TOKEN", res.data.objectData.accessToken, {
                         //Set expires time 3 hours
                         expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
@@ -34,9 +37,12 @@ const LoginPage = () => {
                             userName: _user.userName,
                             email: _user.email,
                             emailConfirmed: _user.emailConfirmed,
+                            theme: _user.theme,
+                            language: _user.language,
+                            image: _user.image,
                         })
                     );
-                    window.location.assign("/app/today");
+                    navigate("/app/today");
                 }
             })
             .catch((error) => console.error(`Cannot Log In `, error));
@@ -59,6 +65,7 @@ const LoginPage = () => {
                             name="email"
                             placeholder="Email"
                             aria-autocomplete="none"
+                            autoFocus
                         />
                         <input
                             className="rounded-full h-12 p-4 bg-fade enabled:outline-none"

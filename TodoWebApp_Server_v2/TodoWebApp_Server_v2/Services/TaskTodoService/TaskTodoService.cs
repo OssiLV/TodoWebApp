@@ -21,7 +21,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             _userManager = userManager;
         }
 
-        public async Task<ResponseObjectDto> CreateTaskTodo( TaskTodoCreateRequestDto taskTodoCreateRequestDto )
+        public async Task<ResponseObjectDto> CreateTaskTodoAsync( TaskTodoCreateRequestDto taskTodoCreateRequestDto )
         {
             TaskTodo newTaskTodo = null;
 
@@ -60,18 +60,18 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Created new TaskTodo", _mapper.Map<TaskTodoResponseDto>(newTaskTodo), true);
         }
 
-        public async Task<ResponseObjectDto> GetAllTaskTodoByUserId( Guid id )
+        public async Task<ResponseObjectDto> GetAllTaskTodoByUserIdAsync( Guid id )
         {
-            User _user = await _todoDbContext.Users.FindAsync(id);
+            User _user = await _userManager.FindByIdAsync(id.ToString());
             if(_user == null) return new ResponseObjectDto("Cannot find user with that id");
 
-            var tasks = await (from user in _todoDbContext.Users
-                               join project in _todoDbContext.Projects
-                               on user.Id equals project.User_id
+
+            var tasks = await (from task in _todoDbContext.TaskTodos
                                join section in _todoDbContext.Sections
-                               on project.Id equals section.Project_id
-                               join task in _todoDbContext.TaskTodos
-                               on section.Id equals task.Section_id
+                               on task.Section_id equals section.Id
+                               join project in _todoDbContext.Projects
+                               on section.Project_id equals project.Id
+                               where project.User_id == _user.Id
                                select _mapper.Map<TaskTodoResponseDto>(task)).ToListAsync();
 
             if(tasks.Count <= 0) return new ResponseObjectDto("List task is empty", true);
@@ -80,7 +80,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
                                
         }
 
-        public async Task<ResponseObjectDto> GetAllTaskTodoInSectionByProjectId( long id )
+        public async Task<ResponseObjectDto> GetAllTaskTodoInSectionByProjectIdAsync( long id )
         {
             if(string.IsNullOrEmpty(id.ToString())) return new ResponseObjectDto("Invalid value!");
 
@@ -100,7 +100,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Get All Task Todo success!", listTaskTodos, true);
         }
 
-        public async Task<ResponseObjectDto> HanldeCompletedTaskTodo( long id )
+        public async Task<ResponseObjectDto> HanldeCompletedTaskTodoAsync( long id )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);
             if(checkTask == null) return new ResponseObjectDto("Cannot find Task with that id");
@@ -111,7 +111,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Set isCompleted: true", true);
         }
 
-        public async Task<ResponseObjectDto> HanldeUndoCompletedTaskTodo( long id )
+        public async Task<ResponseObjectDto> HanldeUndoCompletedTaskTodoAsync( long id )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);
             if(checkTask == null) return new ResponseObjectDto("Cannot find Task with that id");
@@ -122,7 +122,27 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Set isCompleted: false", true);
         }
 
-        public async Task<ResponseObjectDto> UpdateDueDateById( long id, TaskTodoDueDateUpdateRequest taskTodoDueDateUpdateRequest )
+        public async Task<ResponseObjectDto> RescheduleForManyTasksAsync( TaskTodoRescheduleRequestDto taskTodoRescheduleRequestDto )
+        {
+            if(string.IsNullOrEmpty(taskTodoRescheduleRequestDto.DueDate)) return new ResponseObjectDto("Invalid value");
+
+            List<TaskTodo> tasks = await _todoDbContext.TaskTodos
+                .Where(x => taskTodoRescheduleRequestDto.Tasks_id.Contains(x.Id))
+                .ToListAsync();
+
+            foreach( TaskTodo taskTodo in tasks )
+            {
+                taskTodo.Due_Date = taskTodoRescheduleRequestDto.DueDate;
+
+                //_todoDbContext.Entry(taskTodo).State = EntityState.Modified;
+            }
+
+            await _todoDbContext.SaveChangesAsync();
+
+            return new ResponseObjectDto("Reshedule success", "", true);
+        }
+
+        public async Task<ResponseObjectDto> UpdateDueDateByIdAsync( long id, TaskTodoDueDateUpdateRequest taskTodoDueDateUpdateRequest )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);
             if(checkTask == null) return new ResponseObjectDto("Cannot find Task with that id");
@@ -133,7 +153,7 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Updated Due Date success", true);
         }
 
-        public async Task<ResponseObjectDto> UpdatePriorityById(long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest )
+        public async Task<ResponseObjectDto> UpdatePriorityByIdAsync( long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);
             if(checkTask == null) return new ResponseObjectDto("Cannot find Task with that id");

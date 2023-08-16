@@ -5,10 +5,10 @@ namespace TodoWebApp_Server_v2.Services.SectionService
 {
     public interface ISectionService
     {
-        Task<ResponseObjectDto> GetAllSectionByProjectId( long id );
-        Task<ResponseObjectDto> GetSectionByName( string name );
-        Task<ResponseObjectDto> CreateSection( SectionCreateRequestDto SectionCreateRequestDto );
-        Task<ResponseObjectDto> UpdateSectionById( long id, SectionUpdateRequestDto SectionUpdateRequestDto );
-        Task<ResponseObjectDto> DeleSectionById( long id );
+        Task<ResponseObjectDto> GetAllSectionByProjectIdAsync( long id );
+        Task<ResponseObjectDto> GetSectionByNameAsync( string name );
+        Task<ResponseObjectDto> CreateSectionAsync( SectionCreateRequestDto SectionCreateRequestDto );
+        Task<ResponseObjectDto> UpdateSectionByIdAsync( long id, SectionUpdateRequestDto SectionUpdateRequestDto );
+        Task<ResponseObjectDto> DeleSectionByIdAsync( long id );
     }
 }

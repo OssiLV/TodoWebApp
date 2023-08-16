@@ -1,24 +1,60 @@
-import { Bars3Icon, BellIcon, PlusIcon } from "@heroicons/react/24/solid";
-import { Fragment } from "react";
+import { Bars3Icon, PlusIcon } from "@heroicons/react/24/solid";
+import { Fragment, useEffect, useState } from "react";
 import ModalAddTaskComponent from "./Modals/ModalAddTaskComponent";
 import ModalDueDateComponent from "./Modals/ModalDueDateComponent";
+import ModalAccountComponent from "./Modals/ModalAccountComponent";
 import ModalPriorityComponent from "./Modals/ModalPriorityComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpenModal } from "../States/ModalReducer";
+import { RootStates } from "../Global";
+import clsx from "clsx";
 
 const NavbarComponent = () => {
+    const baseURLServer = process.env.REACT_APP_BASE_SERVER_URL;
+
+    const { theme, language, image } = useSelector(
+        (state: RootStates) => state.rootUserReducer
+    );
+    const [isOpenModalAccount, setIsOpenModalAccount] = useState(false);
+
+    const openAccountModal = () => {
+        setIsOpenModalAccount(true);
+    };
+
+    const closeAccountModal = () => {
+        setIsOpenModalAccount(false);
+    };
+    // console.log(image);
+
     return (
         <Fragment>
             <ModalAddTaskComponent />
             <ModalDueDateComponent />
             <ModalPriorityComponent />
+            {isOpenModalAccount && (
+                <ModalAccountComponent
+                    handleCloseAccountModal={closeAccountModal}
+                />
+            )}
+
             <nav
-                className="fixed flex-no-wrap h-12 z-10 flex w-full items-center justify-between bg-neutral-100 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4"
+                className={clsx(
+                    "fixed flex-no-wrap h-12 z-10 flex w-full items-center justify-between  py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4",
+                    {
+                        "bg-neutral-100 text-neutral-700": theme === "Neutral",
+                        "bg-primary text-white": theme === "Primary",
+                        "bg-gray-800 text-white": theme === "Dark",
+                    }
+                )}
                 data-te-navbar-ref
             >
                 <div className="flex w-full flex-wrap items-center justify-between px-3 ">
                     {/* NAV-LEFT-SIDE */}
                     <button
                         type="button"
-                        className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden rounded-lg transition duration-500 ease-linear active:bg-slate-300 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none dark:active:bg-white/10"
+                        className={clsx(
+                            "block border-0 bg-transparent px-2  rounded-lg transition duration-500 ease-linear"
+                        )}
                         data-te-sidenav-toggle-ref
                         data-te-target="#sidebar"
                         aria-controls="#sidebar"
@@ -33,36 +69,34 @@ const NavbarComponent = () => {
                         {/* ADD-TASK */}
                         <button
                             type="button"
-                            className="mr-4 text-neutral-500 hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                            className={clsx(
+                                "mr-4 hover:underline hover:opacity-80 rounded-lg px-2 py-1"
+                            )}
                             data-te-toggle="modal"
                             data-te-target="#addtaskmodal"
-                            data-te-ripple-init
-                            data-te-ripple-color="light"
                         >
-                            <span className="[&>svg]:w-5">
+                            <span className="[&>svg]:w-5 flex items-center gap-1 tracking-wider uppercase">
                                 <PlusIcon />
+                                {language === "en" ? "Add Task" : "Thêm tác vụ"}
                             </span>
                         </button>
 
-                        {/* BELL */}
-                        <div className="relative">
-                            <div className="hidden-arrow mr-4 flex items-center text-neutral-500 hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400">
-                                <span className="[&>svg]:w-5">
-                                    <BellIcon />
-                                </span>
-
-                                <span className="absolute -mt-2.5 ml-2 rounded-[0.37rem] bg-danger px-[0.45em] py-[0.2em] text-[0.6rem] leading-none text-white">
-                                    1
-                                </span>
-                            </div>
-                        </div>
-
                         {/* AVATAR */}
-                        <div className="relative">
+                        <div
+                            className={clsx(
+                                "relative rounded-full p-1 cursor-pointer  transition-all duration-500",
+                                {
+                                    "hover:bg-black": theme === "Neutral",
+                                    "hover:bg-white":
+                                        theme === "Primary" || "Black",
+                                }
+                            )}
+                            onClick={openAccountModal}
+                        >
                             <div className="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none">
                                 <img
-                                    src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-                                    className="rounded-full h-[25px] w-[25px]"
+                                    src={baseURLServer + image}
+                                    className="rounded-full w-[40px] h-[40px]"
                                     alt=""
                                     loading="lazy"
                                 />
