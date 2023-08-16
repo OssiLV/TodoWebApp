@@ -13,5 +13,6 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
         Task<ResponseObjectDto> RescheduleForManyTasksAsync( TaskTodoRescheduleRequestDto taskTodoRescheduleRequestDto );
         Task<ResponseObjectDto> UpdatePriorityByIdAsync( long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest );
         Task<ResponseObjectDto> UpdateDueDateByIdAsync( long id, TaskTodoDueDateUpdateRequest  taskTodoDueDateUpdateRequest);
+        //Task<ResponseObjectDto> UpdateNameAndDescriptionByIdAsync( long id, TaskTodoNameAndDescriptionUpdateDto  taskTodoNameAndDescriptionUpdate);
     }
 }

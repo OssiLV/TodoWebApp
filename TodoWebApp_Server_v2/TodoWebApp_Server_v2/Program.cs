@@ -32,7 +32,7 @@ if(app.Environment.IsDevelopment())
 }
 
 //app.UseCors("MySite");
-app.UseCors("Dev");
+app.UseCors("Product");
 
 app.UseHttpsRedirection();
 

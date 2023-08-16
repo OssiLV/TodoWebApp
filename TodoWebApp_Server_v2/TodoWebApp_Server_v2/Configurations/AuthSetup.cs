@@ -34,7 +34,8 @@ namespace TodoWebApp_Server_v2.Configurations
                 .AddPolicy("Product",
                 builder =>
                 builder
-                    .WithOrigins("https://ossilv.tech")
+                    //.WithOrigins("https://dev--ossilvtodoapp.netlify.app/")
+                    .AllowAnyOrigin()
                     .WithMethods("GET", "PUT", "POST", "DELETE")
                     .AllowAnyHeader()
                     )

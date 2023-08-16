@@ -105,6 +105,18 @@ namespace TodoWebApp_Server_v2.Controllers
             return BadRequest(response);
         }
 
+        /// <summary>
+        /// Update name and description by id
+        /// </summary>
+        //[HttpPut("name-description/{id}")]
+        //public async Task<IActionResult> UpdateNameAndDescriptionByI( [FromRoute] long id, [FromBody] TaskTodoNameAndDescriptionUpdateDto taskTodoNameAndDescriptionUpdateDto )
+        //{
+        //    var response = await _taskTodoService.UpdateNameAndDescriptionByIdAsync(id,taskTodoNameAndDescriptionUpdateDto);
+
+        //    if(response.IsSuccess()) return Ok(response);
+
+        //    return BadRequest(response);
+        //}
 
         /// <summary>
         /// Reschedule task with array id

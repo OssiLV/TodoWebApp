@@ -511,21 +511,21 @@ const AccountTab: FC<IAccountTab> = ({ _user, _handleNavigateTab }) => {
             });
     };
 
-    useEffect(() => {
-        if (checkImage) {
-            axios({
-                method: "PUT",
-                url: `User/defaultAvatar/${_user.id}`,
-            })
-                .then((res) => {
-                    // console.log(res.data.objectData);
-                    dispatch(setAvatar({ image: res.data.objectData }));
-                })
-                .catch((error) => {
-                    console.error("Cannot delete your avatar: " + error);
-                });
-        }
-    }, [checkImage]);
+    // useEffect(() => {
+    //     if (checkImage) {
+    //         axios({
+    //             method: "PUT",
+    //             url: `User/defaultAvatar/${_user.id}`,
+    //         })
+    //             .then((res) => {
+    //                 // console.log(res.data.objectData);
+    //                 dispatch(setAvatar({ image: res.data.objectData }));
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Cannot delete your avatar: " + error);
+    //             });
+    //     }
+    // }, [checkImage]);
 
     const handleCancelUpdateUserName = () => {
         setUserNameValue(_user.userName);

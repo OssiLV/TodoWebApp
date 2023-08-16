@@ -153,6 +153,19 @@ namespace TodoWebApp_Server_v2.Services.TaskTodoService
             return new ResponseObjectDto("Updated Due Date success", true);
         }
 
+        //public async Task<ResponseObjectDto> UpdateNameAndDescriptionByIdAsync( long id, TaskTodoNameAndDescriptionUpdateDto taskTodoNameAndDescriptionUpdate )
+        //{
+        //    TaskTodo task = await _todoDbContext.TaskTodos.FindAsync(id);
+        //    if(task == null) return new ResponseObjectDto("Cannot find Task with that id");
+
+        //    task.Name = taskTodoNameAndDescriptionUpdate.Name;
+        //    task.Description = taskTodoNameAndDescriptionUpdate.Description;
+
+        //    await _todoDbContext.SaveChangesAsync();
+
+        //    return new ResponseObjectDto("Updated success", _mapper.Map<TaskTodoResponseDto>(task), true);
+        //}
+
         public async Task<ResponseObjectDto> UpdatePriorityByIdAsync( long id, TaskTodoPriorityUpdateRequest taskTodoPriorityUpdateRequest )
         {
             TaskTodo checkTask = await _todoDbContext.TaskTodos.FindAsync(id);

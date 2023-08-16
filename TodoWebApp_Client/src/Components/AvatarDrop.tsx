@@ -66,13 +66,9 @@ const AvatarDrop: FC<IAvatarDrop> = ({ _user, setCheckImage }) => {
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         multiple: false,
-        // accept: {
-        //     image: [".jpg", ".png"],
-        // },
     });
 
     useEffect(() => {
-        // console.log(_user.image);
         if (
             _user.image !==
             "UserAvatarsavatar--default_d1b4ea9d-184b-4187-9134-a31eb7a95741.jpg"

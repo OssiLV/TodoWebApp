@@ -33,6 +33,7 @@ namespace TodoWebApp_Server_v2
             //TaskTodo
             CreateMap<TaskTodo, TaskTodoResponseDto>();
             CreateMap<TaskTodoCreateRequestDto, TaskTodo>();
+            CreateMap<TaskTodoNameAndDescriptionUpdateDto, TaskTodo>();
 
         }
     }
